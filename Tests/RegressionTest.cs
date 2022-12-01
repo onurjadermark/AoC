@@ -36,10 +36,10 @@ public class RegressionTest
     private readonly string[] _day25Input = new InputLoader(25).ReadLines<string>();
 
     [Test]
-    public void Day01Part1() => new Day01().Part1(_day01Input).Should().Be(0);
+    public void Day01Part1() => new Day01().Part1(_day01Input).Should().Be(68467);
 
     [Test]
-    public void Day01Part2() => new Day01().Part2(_day01Input).Should().Be(0);
+    public void Day01Part2() => new Day01().Part2(_day01Input).Should().Be(203420);
 
     [Test]
     public void Day02Part1() => new Day02().Part1(_day02Input).Should().Be(0);
