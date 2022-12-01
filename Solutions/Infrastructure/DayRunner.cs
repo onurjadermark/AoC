@@ -5,9 +5,9 @@ namespace Solutions.Infrastructure;
 
 public class DayRunner
 {
-    private static readonly Dictionary<int, Type> DayTypes;
-
-    private readonly int _day;
+    private static readonly Dictionary<int, Type> Types;
+    private static readonly int Year;
+    private static int _day;
     private readonly object _dayInstance;
     private readonly Type _dayType;
     private readonly TimeSpan _initTime;
@@ -16,10 +16,10 @@ public class DayRunner
     static DayRunner()
     {
         var assembly = Assembly.GetExecutingAssembly();
-
-        DayTypes = new Dictionary<int, Type>(
+        Year = DateTime.Now.Year;
+        Types = new Dictionary<int, Type>(
             from type in assembly.GetTypes()
-            where type.Namespace == "Solutions"
+            where type.Namespace == $"Solutions.Solutions._{Year}"
             where type.Name?.StartsWith("Day") == true
             let dayPart = type.Name.Replace("Day", "")
             let parsed = new {canParse = int.TryParse(dayPart, out var parsed), day = parsed}
@@ -31,9 +31,9 @@ public class DayRunner
     public DayRunner(int day)
     {
         _day = day;
-        _loader = new InputLoader(day);
+        _loader = new InputLoader(Year, day);
 
-        _dayType = DayTypes[day];
+        _dayType = Types[day];
 
         var sw = Stopwatch.StartNew();
         _dayInstance = CreateDayInstance() ?? throw new Exception($"Error Activating type {_dayType.FullName}");
@@ -41,7 +41,12 @@ public class DayRunner
         _initTime = sw.Elapsed;
     }
 
-    public static IEnumerable<int> AvailableDays => DayTypes.Keys.OrderBy(x => x).Where(x => x <= DateTime.Now.Day);
+    private static IEnumerable<int> AvailableDays => Types.Keys.OrderBy(x => x).Where(x => x <= DateTime.Now.Day);
+
+    public static IEnumerable<int> GetAvailableDays()
+    {
+        return AvailableDays;
+    }
 
     private object CreateDayInstance()
     {

@@ -1,11 +1,11 @@
 ﻿namespace Solutions.Infrastructure;
 
-internal class Program
+internal static class Program
 {
     private static void Main(string[] args)
     {
-        var days = DayRunner.AvailableDays.ToArray();
-
+        var days = DayRunner.GetAvailableDays().ToArray();
+        
         if (int.TryParse(args.FirstOrDefault(), out var dayParam))
         {
             if (days.Contains(dayParam))
