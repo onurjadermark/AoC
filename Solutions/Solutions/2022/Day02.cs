@@ -2,6 +2,20 @@
 
 public class Day02
 {
+    private readonly Dictionary<int, int> _rockPaperScissors = new()
+    {
+        {0, 1},
+        {1, 2},
+        {2, 0}
+    };
+    
+    private readonly Dictionary<int, int> _loseRockPaperScissors = new()
+    {
+        {0, 2},
+        {1, 0},
+        {2, 1}
+    };
+
     public int Part1(string[] input)
     {
         var score = 0;
@@ -9,60 +23,20 @@ public class Day02
         {
             var roundScore = 0;
             var split = line.Split(" ");
-            if (split[0] == "A")
+            var opponent = split[0][0];
+            var me = split[1][0];
+            
+            roundScore += me - 'X' + 1;
+            
+            if (_rockPaperScissors[opponent - 'A'] + 'X' == me)
             {
-                if (split[1] == "Z")
-                {
-                    roundScore += 3;
-                }
-                else if (split[1] == "X")
-                {
-                    roundScore += 3;
-                    roundScore += 1;
-                }
-                else
-                {
-                    roundScore += 6;
-                    
-                    roundScore += 2;
-                }
+                roundScore += 6;
             }
-            else if (split[0] == "B")
+            else if (opponent - 'A' == me - 'X')
             {
-                if (split[1] == "X")
-                {
-                    roundScore += 1;
-                }
-                else if (split[1] == "Y")
-                {
-                    roundScore += 3;
-                    roundScore += 2;
-                }
-                else
-                {
-                    
-                    roundScore += 6;
-                    roundScore += 3;
-                }
+                roundScore += 3;
             }
-            else if (split[0] == "C")
-            {
-                if (split[1] == "Y")
-                {
-                    roundScore += 2;
-                }
-                else if (split[1] == "Z")
-                {
-                    roundScore += 3;
-                    roundScore += 3;
-                }
-                else
-                {
-                    roundScore += 6;
-                    roundScore += 1;
-                }
-            }
-
+            
             score += roundScore;
         }
         
@@ -76,58 +50,16 @@ public class Day02
         {
             var roundScore = 0;
             var split = line.Split(" ");
-            if (split[0] == "A")
-            {
-                if (split[1] == "X")
-                {
-                    roundScore += 3;
-                }
-                else if (split[1] == "Y")
-                {
-                    roundScore += 1;
-                    roundScore += 3;
-                }
-                else if (split[1] == "Z")
-                {
-                    roundScore += 2;
-                    roundScore += 6;
-                }
-            }
-            else if (split[0] == "B")
-            {
-                if (split[1] == "X")
-                {
-                    roundScore += 1;
-                }
-                else if (split[1] == "Y")
-                {
-                    roundScore += 2;
-                    roundScore += 3;
-                }
-                else if (split[1] == "Z")
-                {
-                    roundScore += 3;
-                    roundScore += 6;
-                }
-            }
-            else if (split[0] == "C")
-            {
-                if (split[1] == "X")
-                {
-                    roundScore += 2;
-                }
-                else if (split[1] == "Y")
-                {
-                    roundScore += 3;
-                    roundScore += 3;
-                }
-                else if (split[1] == "Z")
-                {
-                    roundScore += 1;
-                    roundScore += 6;
-                }
-            }
+            var opponent = split[0][0];
+            var result = split[1][0];
+            
+            roundScore += (result - 'X') * 3;
+            
+            var me = result == 'Z' ? _rockPaperScissors[opponent - 'A'] :
+                result == 'Y' ? opponent - 'A' : _loseRockPaperScissors[opponent - 'A'];
 
+            roundScore += me + 1;
+            
             score += roundScore;
         }
         
