@@ -6,7 +6,6 @@ using Solutions.Solutions._2022;
 namespace Tests.Tests._2022;
 
 [TestFixture]
-[Explicit]
 public class RegressionTest
 {
     private const int Year = 2022;
