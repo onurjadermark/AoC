@@ -2,20 +2,6 @@
 
 public class Day02
 {
-    private readonly Dictionary<int, int> _rockPaperScissors = new()
-    {
-        {0, 1},
-        {1, 2},
-        {2, 0}
-    };
-    
-    private readonly Dictionary<int, int> _loseRockPaperScissors = new()
-    {
-        {0, 2},
-        {1, 0},
-        {2, 1}
-    };
-
     public int Part1(string[] input)
     {
         var score = 0;
@@ -27,8 +13,7 @@ public class Day02
             var me = split[1][0] - 'X';
             
             roundScore += me + 1;
-            
-            if (_rockPaperScissors[opponent] == me)
+            if ((opponent + 1) % 3 == me)
             {
                 roundScore += 6;
             }
@@ -51,13 +36,15 @@ public class Day02
             var roundScore = 0;
             var split = line.Split(" ");
             var opponent = split[0][0] - 'A';
-            var result = split[1][0];
+            var result = split[1][0] - 'X';
             
-            roundScore += (result - 'X') * 3;
-            
-            var me = result == 'Z' ? _rockPaperScissors[opponent] :
-                result == 'Y' ? opponent : _loseRockPaperScissors[opponent];
-
+            roundScore += result * 3;
+            var me = result switch
+            {
+                2 => (opponent + 1) % 3,
+                1 => opponent,
+                _ => (opponent + 2) % 3
+            };
             roundScore += me + 1;
 
             score += roundScore;
