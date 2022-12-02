@@ -23,16 +23,16 @@ public class Day02
         {
             var roundScore = 0;
             var split = line.Split(" ");
-            var opponent = split[0][0];
-            var me = split[1][0];
+            var opponent = split[0][0] - 'A';
+            var me = split[1][0] - 'X';
             
-            roundScore += me - 'X' + 1;
+            roundScore += me + 1;
             
-            if (_rockPaperScissors[opponent - 'A'] + 'X' == me)
+            if (_rockPaperScissors[opponent] == me)
             {
                 roundScore += 6;
             }
-            else if (opponent - 'A' == me - 'X')
+            else if (opponent == me)
             {
                 roundScore += 3;
             }
@@ -50,16 +50,16 @@ public class Day02
         {
             var roundScore = 0;
             var split = line.Split(" ");
-            var opponent = split[0][0];
+            var opponent = split[0][0] - 'A';
             var result = split[1][0];
             
             roundScore += (result - 'X') * 3;
             
-            var me = result == 'Z' ? _rockPaperScissors[opponent - 'A'] :
-                result == 'Y' ? opponent - 'A' : _loseRockPaperScissors[opponent - 'A'];
+            var me = result == 'Z' ? _rockPaperScissors[opponent] :
+                result == 'Y' ? opponent : _loseRockPaperScissors[opponent];
 
             roundScore += me + 1;
-            
+
             score += roundScore;
         }
         
