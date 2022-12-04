@@ -18,8 +18,4 @@
         <ProjectReference Include="..\Solutions\Solutions.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-        <Folder Include="Tests" />
-    </ItemGroup>
-
 </Project>
