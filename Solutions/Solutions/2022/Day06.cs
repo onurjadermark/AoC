@@ -4,31 +4,24 @@ public class Day06
 {
     public int Part1(string[] input)
     {
-        return Solve(input, 4);
+        return Solve(input[0], 4);
     }
 
     public int Part2(string[] input)
     {
-        return Solve(input, 14);
+        return Solve(input[0], 14);
     }
 
-    private static int Solve(string[] input, int length)
+    private static int Solve(string input, int length)
     {
-        var cur = "";
-        foreach (var ch in input[0])
+        for (var i = 0; i < input.Length - length; i++)
         {
-            cur += ch;
-            if (cur.Length > length)
+            if (input.Substring(i, length).Distinct().Count() == length)
             {
-                cur = cur.Substring(1);
-            }
-
-            if (cur.Length == length && cur.Distinct().Count() == length)
-            {
-                return input[0].IndexOf(cur, StringComparison.Ordinal) + length;
+                return i + length;
             }
         }
 
-        return 0;
+        throw new Exception();
     }
 }
