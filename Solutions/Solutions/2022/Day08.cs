@@ -43,6 +43,8 @@ public class Day08
                     if (curX == -1 || curY == -1 || curX == size || curY == size)
                     {
                         valid = true;
+                        curX = Math.Clamp(curX, 0, size - 1);
+                        curY = Math.Clamp(curY, 0, size - 1);
                         break;
                     }
 
@@ -52,8 +54,7 @@ public class Day08
                     }
                 }
 
-                var dist = Math.Max(Math.Abs(i - Math.Clamp(curX, 0, size - 1)),
-                    Math.Abs(j - Math.Clamp(curY, 0, size - 1)));
+                var dist = i == curX ? Math.Abs(j - curY) : Math.Abs(i - curX);
                 score *= dist;
             }
 
