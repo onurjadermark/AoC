@@ -38,11 +38,6 @@ public class Day09
             for (var i = 0; i < distance; i++)
             {
                 var move = _moves[direction];
-                var prevRope = new (int x, int y)[10];
-                for (var j = 0; j < 10; j++)
-                {
-                    prevRope[j] = rope[j];
-                }
 
                 rope[0].x += move.x;
                 rope[0].y += move.y;
