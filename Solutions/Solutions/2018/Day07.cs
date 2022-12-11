@@ -29,7 +29,7 @@ public class Day07
             .Concat(requirements.Select(x => x.SecondId))
             .Distinct()
             .OrderBy(x => x)
-            .Select(x => new Job (x, (workerCount == 2 ? 1 : 61) + x[0] - 'A')).ToList();
+            .Select(x => new Job(x, (workerCount == 2 ? 1 : 61) + x[0] - 'A')).ToList();
 
         foreach (var (firstId, secondId) in requirements)
             allJobs.Single(x => x.Id == secondId).RequiredIds.Add(firstId);
@@ -79,7 +79,7 @@ public class Day07
             TimeLeft = timeLeft;
         }
 
-        public string Id { get; set; }
+        public string Id { get; }
         public int TimeLeft { get; set; }
         public List<string> RequiredIds { get; } = new();
     }

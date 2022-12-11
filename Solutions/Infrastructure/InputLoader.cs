@@ -2,8 +2,8 @@
 
 public class InputLoader
 {
-    private readonly int _year;
     private readonly int _day;
+    private readonly int _year;
 
     public InputLoader(int year, int day)
     {

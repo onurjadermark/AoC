@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace Solutions.Solutions._2022;
+﻿namespace Solutions.Solutions._2022;
 
 public class Day11
 {
@@ -56,7 +54,7 @@ public class Day11
             FalseTestThrowTo = int.Parse(lines[5].Split(" ").Last())
         };
     }
-    
+
     private sealed class Item
     {
         public long Value { get; set; }
@@ -116,6 +114,7 @@ public class Day11
                 var targetId = item.Value % DivisibleByTest == 0 ? TrueTestThrowTo : FalseTestThrowTo;
                 monkeys[targetId].Items.Add(item);
             }
+
             Items = new HashSet<Item>();
         }
     }

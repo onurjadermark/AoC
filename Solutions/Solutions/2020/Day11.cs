@@ -14,9 +14,9 @@ public class Day11
         (-1, 1)
     };
 
-    private static char[,] _grid = new char[0,0];
-    private static char[,] _newGrid = new char[0,0];
-    private static char[,] _emptyGrid = new char[0,0];
+    private static char[,] _grid = new char[0, 0];
+    private static char[,] _newGrid = new char[0, 0];
+    private static char[,] _emptyGrid = new char[0, 0];
     private static int _turns;
     private static int _width;
     private static int _height;

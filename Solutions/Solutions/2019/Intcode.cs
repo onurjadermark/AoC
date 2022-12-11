@@ -4,14 +4,7 @@ public class Intcode
 {
     private readonly int[] _program;
     private int _position;
-    
-    private enum Opcode
-    {
-        Addition = 1,
-        Multiplication = 2,
-        Return = 99
-    }
-    
+
     public Intcode(int[] program)
     {
         _program = (int[]) program.Clone();
@@ -63,5 +56,12 @@ public class Intcode
     private Opcode GetCurrentOpcode()
     {
         return (Opcode) _program[_position];
+    }
+
+    private enum Opcode
+    {
+        Addition = 1,
+        Multiplication = 2,
+        Return = 99
     }
 }

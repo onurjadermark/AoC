@@ -7,12 +7,13 @@ public class Day10
     public int Part1(string[] input)
     {
         var values = GetValues(input);
-        var times = new int[] {20, 60, 100, 140, 180, 220};
+        var times = new[] {20, 60, 100, 140, 180, 220};
         var result = 0;
         foreach (var time in times)
         {
             result += time * values[time];
         }
+
         return result;
     }
 
@@ -25,8 +26,9 @@ public class Day10
             var sb = new StringBuilder();
             for (var j = 0; j < 40; j++)
             {
-                sb.Append(Math.Abs(values[i*40+j + 1] - j) <= 1 ? "#" : ".");
+                sb.Append(Math.Abs(values[i * 40 + j + 1] - j) <= 1 ? "#" : ".");
             }
+
             strings.Add(sb.ToString());
         }
 
@@ -41,6 +43,7 @@ public class Day10
         {
             values[i] = 1;
         }
+
         foreach (var line in input)
         {
             curTime++;

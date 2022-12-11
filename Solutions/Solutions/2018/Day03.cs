@@ -32,7 +32,7 @@ public class Day03
         return -1;
     }
 
-    private (int Id, Rectangle Rectangle) GetRectangle(string line)
+    private (int Id, System.Drawing.Rectangle Rectangle) GetRectangle(string line)
     {
         var split = line.Split('#', ' ', '@', ',', ':', 'x').Where(x => !string.IsNullOrWhiteSpace(x)).Select(int.Parse)
             .ToArray();

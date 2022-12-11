@@ -9,7 +9,7 @@ public class Day09
         {'D', (-1, 0)},
         {'L', (0, -1)}
     };
-    
+
     public int Part1(string[] input)
     {
         return Solve(input, 1);

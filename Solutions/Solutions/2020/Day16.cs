@@ -103,11 +103,6 @@ public class Day16
         return part == 1 ? result : wantedFields.Aggregate((x, y) => x * y);
     }
 
-    private static bool InInterval((int Min, int Max) interval, int value)
-    {
-        return interval.Min <= value && value <= interval.Max;
-    }
-
     private class Rule
     {
         public Rule(string name, List<(int Min, int Max)> intervals)
@@ -116,7 +111,7 @@ public class Day16
             Intervals = intervals;
         }
 
-        public string Name { get; set; }
-        public List<(int Min, int Max)> Intervals { get; set; }
+        public string Name { get; }
+        public List<(int Min, int Max)> Intervals { get; }
     }
 }
