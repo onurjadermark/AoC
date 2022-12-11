@@ -17,9 +17,7 @@ public class Day08
     {
         var numChildren = numbers[currentIndex];
         var numMetadata = numbers[currentIndex + 1];
-        var node = new Node
-            {
-            };
+        var node = new Node();
         nodes.Add(node);
         parent?.Children.Add(node);
         currentIndex += 2;

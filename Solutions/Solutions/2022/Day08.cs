@@ -2,9 +2,9 @@
 
 public class Day08
 {
-    private int _visibleCount;
-    private int _highestScore;
     private readonly (int x, int y)[] _validMoves = {(1, 0), (0, 1), (-1, 0), (0, -1)};
+    private int _highestScore;
+    private int _visibleCount;
 
     public int Part1(string[] input)
     {
@@ -39,7 +39,7 @@ public class Day08
                 {
                     curX += _validMoves[k].x;
                     curY += _validMoves[k].y;
-                    
+
                     if (curX == -1 || curY == -1 || curX == size || curY == size)
                     {
                         valid = true;

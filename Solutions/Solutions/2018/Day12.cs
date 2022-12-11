@@ -100,7 +100,7 @@ public class Day12
             PutPlant = putPlant;
         }
 
-        public string State { get; set; }
-        public bool PutPlant { get; set; }
+        public string State { get; }
+        public bool PutPlant { get; }
     }
 }

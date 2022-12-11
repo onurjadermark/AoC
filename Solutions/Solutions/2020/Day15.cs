@@ -27,7 +27,7 @@ public class Day15
 
         var count = numbers.Count;
         var lastNumber = numbers.Last();
-        var prevIndex = Enumerable.SkipLast(numbers, 1).ToList().LastIndexOf(lastNumber);
+        var prevIndex = numbers.SkipLast(1).ToList().LastIndexOf(lastNumber);
         while (true)
         {
             var num = 0;

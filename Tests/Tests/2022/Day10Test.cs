@@ -157,7 +157,7 @@ noop
 noop".Split(Environment.NewLine).ToArray();
 
     private Day10 GetInstance() => new();
-    
+
     [Test]
     public void Part1() => GetInstance().Part1(_sampleInput).Should().Be(13140);
 
