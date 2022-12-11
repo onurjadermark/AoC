@@ -16,29 +16,30 @@ public class Day11
 
     private static long Solve(string[] input, int part)
     {
-        var monkeys = new List<Monkey>();
+        var monkeys = new Dictionary<int, Monkey>();
         for (var i = 0; i < input.Length; i += 7)
         {
             var monkey = ParseInput(input.Skip(i).Take(6).ToArray());
-            monkeys.Add(monkey);
+            monkeys[monkey.Id] = monkey;
         }
 
-        var commonDivisor = monkeys.Select(x => x.DivisibleByTest).Aggregate((x, y) => x * y);
+        var commonDivisor = monkeys.Select(x => x.Value.DivisibleByTest).Aggregate((x, y) => x * y);
 
         for (var i = 0; i < (part == 1 ? 20 : 10000); i++)
         {
-            foreach (var cur in monkeys)
+            foreach (var cur in monkeys.Select(x => x.Value))
             {
                 foreach (var item in cur.Items.ToList())
                 {
                     cur.Inspect(item);
                     cur.Adjust(item, part, commonDivisor);
-                    cur.Throw(item, monkeys);
                 }
+
+                cur.ThrowItems(monkeys);
             }
         }
 
-        return monkeys.OrderByDescending(x => x.NumberOfInspections).Take(2).Select(x => x.NumberOfInspections).Aggregate((x, y) => x * y);
+        return monkeys.Select(x => x.Value.NumberOfInspections).OrderByDescending(x => x).Take(2).Aggregate((x, y) => x * y);
     }
 
     private static Monkey ParseInput(IReadOnlyList<string> lines)
@@ -46,7 +47,7 @@ public class Day11
         return new Monkey
         {
             Id = lines[0].Split(" ")[1][0] - '0',
-            Items = lines[1].Split(" ").Skip(4).Select(x => x.Trim(',')).Select(long.Parse).Select(x => new Item {Value = x}).ToList(),
+            Items = lines[1].Split(" ").Skip(4).Select(x => x.Trim(',')).Select(long.Parse).Select(x => new Item {Value = x}).ToHashSet(),
             OperationType = lines[2].Contains("+") ? OperationType.Add : OperationType.Multiply,
             OperationTarget = lines[2].Split("old").Length == 2 ? OperationTarget.Number : OperationTarget.Self,
             OperationTargetInt = int.TryParse(lines[2].Split(" ").Last(), out _) ? int.Parse(lines[2].Split(" ").Last()) : null,
@@ -76,7 +77,7 @@ public class Day11
     private sealed class Monkey
     {
         public int Id { get; init; }
-        public List<Item> Items { get; init; } = new();
+        public HashSet<Item> Items { get; set; } = new();
         public OperationType OperationType { get; init; }
         public OperationTarget OperationTarget { get; init; }
         public int? OperationTargetInt { get; init; }
@@ -90,7 +91,7 @@ public class Day11
             switch (OperationType)
             {
                 case OperationType.Add:
-                    item.Value += OperationTarget == OperationTarget.Number ? OperationTargetInt!.Value : item.Value + item.Value;
+                    item.Value += OperationTarget == OperationTarget.Number ? OperationTargetInt!.Value : item.Value;
                     break;
                 case OperationType.Multiply:
                     item.Value *= OperationTarget == OperationTarget.Number ? OperationTargetInt!.Value : item.Value;
@@ -108,11 +109,14 @@ public class Day11
             item.Value %= commonDivisor;
         }
 
-        public void Throw(Item item, List<Monkey> monkeys)
+        public void ThrowItems(Dictionary<int, Monkey> monkeys)
         {
-            var targetId = item.Value % DivisibleByTest == 0 ? TrueTestThrowTo : FalseTestThrowTo;
-            monkeys.Single(x => x.Id == targetId).Items.Add(item);
-            Items.Remove(item);
+            foreach (var item in Items)
+            {
+                var targetId = item.Value % DivisibleByTest == 0 ? TrueTestThrowTo : FalseTestThrowTo;
+                monkeys[targetId].Items.Add(item);
+            }
+            Items = new HashSet<Item>();
         }
     }
 }
