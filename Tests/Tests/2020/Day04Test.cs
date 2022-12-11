@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using NUnit.Framework;
 using Solutions.Solutions._2020;
 
@@ -25,7 +26,7 @@ iyr:2011 ecl:brn hgt:59in";
     private Day04 GetInstance() => new();
 
     [Test]
-    public void Part1() => GetInstance().Part1(_part1DemoInput.Split()).Should().Be(2);
+    public void Part1() => GetInstance().Part1(_part1DemoInput.Split(Environment.NewLine)).Should().Be(2);
 
 
     private static readonly string _part2ValidPassports = @"pid:087499704 hgt:74in ecl:grn iyr:2012 eyr:2030 byr:1980
@@ -56,8 +57,8 @@ eyr:2038 hcl:74454a iyr:2023
 pid:3556412378 byr:2007";
 
     [Test]
-    public void Part2Valid() => new Day04().Part2(_part2ValidPassports.Split()).Should().Be(4);
+    public void Part2Valid() => new Day04().Part2(_part2ValidPassports.Split(Environment.NewLine)).Should().Be(4);
 
     [Test]
-    public void Part2Invalid() => new Day04().Part2(_part2InvalidPassports.Split()).Should().Be(0);
+    public void Part2Invalid() => new Day04().Part2(_part2InvalidPassports.Split(Environment.NewLine)).Should().Be(0);
 }
