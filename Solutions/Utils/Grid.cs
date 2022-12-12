@@ -21,10 +21,10 @@ public class Grid<T>
         for (var j = 0; j < height; j++)
         {
             var neighbors = new List<Node<T>>();
-            if (i != 0) neighbors.Add(Dict[(i - 1, j)]);
-            if (j != 0) neighbors.Add(Dict[(i, j - 1)]);
             if (i < width - 1) neighbors.Add(Dict[(i + 1, j)]);
             if (j < height - 1) neighbors.Add(Dict[(i, j + 1)]);
+            if (i != 0) neighbors.Add(Dict[(i - 1, j)]);
+            if (j != 0) neighbors.Add(Dict[(i, j - 1)]);
             if (allowDiagonal && i != 0 && j != 0) neighbors.Add(Dict[(i - 1, j - 1)]);
             if (allowDiagonal && i != 0 && j < height - 1) neighbors.Add(Dict[(i - 1, j + 1)]);
             if (allowDiagonal && i < width - 1 && j != 0) neighbors.Add(Dict[(i + 1, j - 1)]);
