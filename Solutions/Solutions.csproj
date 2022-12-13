@@ -351,11 +351,12 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="morelinq" Version="3.3.2"/>
+        <PackageReference Include="morelinq" Version="3.3.2" />
+        <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Solutions\2021"/>
+        <Folder Include="Solutions\2021" />
     </ItemGroup>
 
 </Project>
