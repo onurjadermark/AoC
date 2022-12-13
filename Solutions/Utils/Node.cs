@@ -6,5 +6,4 @@ public class Node<T>
     public int Y { get; init; }
     public T Value { get; set; } = default!;
     public IEnumerable<Node<T>> Neighbors { get; set; } = null!;
-    public int ShortestPathLength { get; set; } = int.MaxValue;
 }
