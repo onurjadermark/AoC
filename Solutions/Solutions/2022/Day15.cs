@@ -1,52 +1,31 @@
-﻿using System.Numerics;
+﻿using Solutions.Utils;
 
 namespace Solutions.Solutions._2022;
 
 public class Day15
 {
-    private class Sensor
-    {
-        public int X { get; set; }
-        public int Y { get; set; }
-        public int ClosestBeaconX { get; set; }
-        public int ClosestBeaconY { get; set; }
-
-        public Sensor(int x, int y, int closestBeaconX, int closestBeaconY)
-        {
-            X = x;
-            Y = y;
-            ClosestBeaconX = closestBeaconX;
-            ClosestBeaconY = closestBeaconY;
-        }
-    }
-    
     public int Part1(string[] input)
     {
-        var sensors = input.Select(ParseSensor);
+        var sensors = input.Select(ParseSensor).ToList();
         var y = input.Length < 20 ? 10 : 2000000;
-        var result = 0;
-        for (int x = -5000000; x < 8000000; x++)
+        var points = new HashSet<int>();
+        foreach (var sensor in sensors)
         {
-            foreach (var sensor in sensors)
+            var overlapSizeX = sensor.BeaconDistance - Math.Abs(sensor.Y - y);
+            for (var i = 0; i <= overlapSizeX; i++)
             {
-                var beaconDistance = Math.Abs(sensor.ClosestBeaconX - sensor.X) + 
-                                     Math.Abs(sensor.ClosestBeaconY - sensor.Y);
-                var pointDistance = Math.Abs(sensor.X - x) + Math.Abs(sensor.Y - y);
-                if (pointDistance <= beaconDistance)
-                {
-                    if (sensors.Any(z => z.ClosestBeaconX == x && z.ClosestBeaconY == y)) continue;
-                    result++;
-                    break;
-                }
+                points.Add(sensor.X - i);
+                points.Add(sensor.X + i);
             }
         }
-        return result;
+
+        sensors.Where(x => x.ClosestBeaconY == y).ForEach(x => points.Remove(x.ClosestBeaconX));
+        return points.Count;
     }
-    
+
     public long Part2(string[] input)
     {
-        var sensors = input.Select(ParseSensor);
-        var result = 0;
+        var sensors = input.Select(ParseSensor).ToList();
         var beaconBoundaries = new HashSet<(int x, int y)>();
         foreach (var sensor in sensors)
         {
@@ -64,12 +43,13 @@ public class Day15
             sensor.ClosestBeaconX -= sensorXOffset;
             sensor.ClosestBeaconY += sensorXOffset;
 
-            for (int i = 0; i < sensor.ClosestBeaconY - sensor.Y + 1; i++)
+            for (var i = 0; i < sensor.ClosestBeaconY - sensor.Y + 1; i++)
             {
                 beaconBoundaries.Add((sensor.ClosestBeaconX + i, sensor.ClosestBeaconY - i));
                 beaconBoundaries.Add((sensor.ClosestBeaconX - i, sensor.ClosestBeaconY - i));
             }
-            for (int i = 0; i < sensor.ClosestBeaconY - sensor.Y + 1; i++)
+
+            for (var i = 0; i < sensor.ClosestBeaconY - sensor.Y + 1; i++)
             {
                 beaconBoundaries.Add((sensor.ClosestBeaconX + i, sensor.Y - (sensor.ClosestBeaconY - sensor.Y) + i));
                 beaconBoundaries.Add((sensor.ClosestBeaconX - i, sensor.Y - (sensor.ClosestBeaconY - sensor.Y) + i));
@@ -97,7 +77,7 @@ public class Day15
             var canReach = false;
             foreach (var sensor in sensors)
             {
-                var beaconDistance = Math.Abs(sensor.ClosestBeaconX - sensor.X) + 
+                var beaconDistance = Math.Abs(sensor.ClosestBeaconX - sensor.X) +
                                      Math.Abs(sensor.ClosestBeaconY - sensor.Y);
                 var pointDistance = Math.Abs(sensor.X - cur.x) + Math.Abs(sensor.Y - cur.y);
                 if (pointDistance <= beaconDistance)
@@ -113,15 +93,32 @@ public class Day15
             }
         }
 
-        return ((long) results.Single().x) * 4000000 + results.Single().y;
+        return (long) results.Single().x * 4000000 + results.Single().y;
     }
 
-    private Sensor ParseSensor(string s)
+    private static Sensor ParseSensor(string s)
     {
         var split = s.Split(" ");
-        return new Sensor(int.Parse(split[2].Substring(2).Trim(',')), 
-            int.Parse(split[3].Substring(2).Trim(':')), 
-            int.Parse(split[8].Substring(2).Trim(',')), 
-            int.Parse(split[9].Substring(2)));
+        return new Sensor(int.Parse(split[2][2..].Trim(',')), int.Parse(split[3][2..].Trim(':')),
+            int.Parse(split[8][2..].Trim(',')), int.Parse(split[9][2..]));
+    }
+
+    private class Sensor
+    {
+        public int BeaconDistance { get; }
+        
+        public Sensor(int x, int y, int closestBeaconX, int closestBeaconY)
+        {
+            X = x;
+            Y = y;
+            ClosestBeaconX = closestBeaconX;
+            ClosestBeaconY = closestBeaconY;
+            BeaconDistance = Math.Abs(ClosestBeaconX - X) + Math.Abs(ClosestBeaconY - Y);
+        }
+
+        public int X { get; }
+        public int Y { get; }
+        public int ClosestBeaconX { get; set; }
+        public int ClosestBeaconY { get; set; }
     }
 }
