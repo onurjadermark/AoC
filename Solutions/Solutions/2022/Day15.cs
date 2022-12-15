@@ -25,75 +25,67 @@ public class Day15
 
     public long Part2(string[] input)
     {
-        var sensors = input.Select(ParseSensor).ToList();
-        var beaconBoundaries = new HashSet<(int x, int y)>();
+        var sensors = input.Select(ParseSensor).OrderBy(x => x.BeaconDistance).ToList();
+        var searchArea = sensors.Count > 20 ? 4000000 : 20;
+
         foreach (var sensor in sensors)
         {
-            if (sensor.ClosestBeaconX < sensor.X)
+            var candidateX = sensor.X;
+            var candidateY = sensor.Y + sensor.BeaconDistance + 1;
+            var edgeSize = sensor.BeaconDistance * 2 + 2;
+            for (var i = 0; i < edgeSize; i++)
             {
-                sensor.ClosestBeaconX += 2 * (sensor.X - sensor.ClosestBeaconX);
-            }
-
-            if (sensor.ClosestBeaconY < sensor.Y)
-            {
-                sensor.ClosestBeaconY += 2 * (sensor.Y - sensor.ClosestBeaconY);
-            }
-
-            var sensorXOffset = sensor.ClosestBeaconX - sensor.X;
-            sensor.ClosestBeaconX -= sensorXOffset;
-            sensor.ClosestBeaconY += sensorXOffset;
-
-            for (var i = 0; i < sensor.ClosestBeaconY - sensor.Y + 1; i++)
-            {
-                beaconBoundaries.Add((sensor.ClosestBeaconX + i, sensor.ClosestBeaconY - i));
-                beaconBoundaries.Add((sensor.ClosestBeaconX - i, sensor.ClosestBeaconY - i));
-            }
-
-            for (var i = 0; i < sensor.ClosestBeaconY - sensor.Y + 1; i++)
-            {
-                beaconBoundaries.Add((sensor.ClosestBeaconX + i, sensor.Y - (sensor.ClosestBeaconY - sensor.Y) + i));
-                beaconBoundaries.Add((sensor.ClosestBeaconX - i, sensor.Y - (sensor.ClosestBeaconY - sensor.Y) + i));
-            }
-        }
-
-        var possibles = new HashSet<(int x, int y)>();
-        foreach (var beaconBoundary in beaconBoundaries)
-        {
-            if (beaconBoundary.x <= 4000000 && beaconBoundary.y <= 4000000)
-            {
-                if (beaconBoundaries.Contains((beaconBoundary.x + 2, beaconBoundary.y)) &&
-                    beaconBoundaries.Contains((beaconBoundary.x + 1, beaconBoundary.y - 1)) &&
-                    beaconBoundaries.Contains((beaconBoundary.x + 1, beaconBoundary.y + 1)))
+                candidateX++;
+                candidateY--;
+                if (CheckCandidate(candidateX, candidateY, searchArea, sensors))
                 {
-                    possibles.Add((beaconBoundary.x, beaconBoundary.y));
+                    return GetTuningFrequency(candidateX, candidateY);
+                }
+            }
+
+            for (var i = 0; i < edgeSize; i++)
+            {
+                candidateX--;
+                candidateY--;
+                if (CheckCandidate(candidateX, candidateY, searchArea, sensors))
+                {
+                    return GetTuningFrequency(candidateX, candidateY);
+                }
+            }
+
+            for (var i = 0; i < edgeSize; i++)
+            {
+                candidateX--;
+                candidateY++;
+                if (CheckCandidate(candidateX, candidateY, searchArea, sensors))
+                {
+                    return GetTuningFrequency(candidateX, candidateY);
+                }
+            }
+
+            for (var i = 0; i < edgeSize; i++)
+            {
+                candidateX++;
+                candidateY++;
+                if (CheckCandidate(candidateX, candidateY, searchArea, sensors))
+                {
+                    return GetTuningFrequency(candidateX, candidateY);
                 }
             }
         }
 
-        var results = new List<(int x, int y)>();
-        foreach (var possible in possibles.ToList())
-        {
-            var cur = possible with {x = possible.x + 1};
-            var canReach = false;
-            foreach (var sensor in sensors)
-            {
-                var beaconDistance = Math.Abs(sensor.ClosestBeaconX - sensor.X) +
-                                     Math.Abs(sensor.ClosestBeaconY - sensor.Y);
-                var pointDistance = Math.Abs(sensor.X - cur.x) + Math.Abs(sensor.Y - cur.y);
-                if (pointDistance <= beaconDistance)
-                {
-                    canReach = true;
-                    break;
-                }
-            }
+        return 0;
+    }
 
-            if (!canReach)
-            {
-                results.Add(cur);
-            }
-        }
+    private static long GetTuningFrequency(int candidateX, int candidateY)
+    {
+        return 4000000L * candidateX + candidateY;
+    }
 
-        return (long) results.Single().x * 4000000 + results.Single().y;
+    private static bool CheckCandidate(int candidateX, int candidateY, int searchArea, List<Sensor> sensors)
+    {
+        return candidateX >= 0 && candidateY >= 0 && candidateX <= searchArea && candidateY <= searchArea &&
+               sensors.All(x => x.DistanceTo(candidateX, candidateY) > x.BeaconDistance);
     }
 
     private static Sensor ParseSensor(string s)
@@ -120,5 +112,10 @@ public class Day15
         public int Y { get; }
         public int ClosestBeaconX { get; set; }
         public int ClosestBeaconY { get; set; }
+
+        public int DistanceTo(int x, int y)
+        {
+            return Math.Abs(X - x) + Math.Abs(Y - y);
+        }
     }
 }
