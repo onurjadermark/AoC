@@ -25,8 +25,10 @@ public class Day15
 
     public long Part2(string[] input)
     {
-        var sensors = input.Select(ParseSensor).OrderBy(x => x.BeaconDistance).ToList();
+        var sensors = input.Select(ParseSensor).ToHashSet();
         var searchArea = sensors.Count > 20 ? 4000000 : 20;
+        
+        sensors = SortSensorsWithBoundaryDistance(sensors);
 
         foreach (var sensor in sensors)
         {
@@ -77,12 +79,27 @@ public class Day15
         return 0;
     }
 
+    private static HashSet<Sensor> SortSensorsWithBoundaryDistance(HashSet<Sensor> sensors)
+    {
+        var distances = new List<(Sensor a, Sensor b, int distance)>();
+        foreach (var sensor1 in sensors)
+        foreach (var sensor2 in sensors.Where(x => x != sensor1))
+        {
+            distances.Add((sensor1, sensor2,
+                Math.Abs(sensor1.DistanceTo(sensor2.X, sensor2.Y) - sensor1.BeaconDistance - sensor2.BeaconDistance)));
+        }
+
+        distances = distances.OrderBy(x => x.distance == 0 ? int.MaxValue : x.distance).ToList();
+        sensors = sensors.OrderBy(x => distances.First(y => y.a == x || y.b == x).distance).ToHashSet();
+        return sensors;
+    }
+
     private static long GetTuningFrequency(int candidateX, int candidateY)
     {
         return 4000000L * candidateX + candidateY;
     }
 
-    private static bool CheckCandidate(int candidateX, int candidateY, int searchArea, List<Sensor> sensors)
+    private static bool CheckCandidate(int candidateX, int candidateY, int searchArea, HashSet<Sensor> sensors)
     {
         return candidateX >= 0 && candidateY >= 0 && candidateX <= searchArea && candidateY <= searchArea &&
                sensors.All(x => x.DistanceTo(candidateX, candidateY) > x.BeaconDistance);
