@@ -1,4 +1,6 @@
-﻿namespace Solutions.Solutions._2022;
+﻿using System.Text;
+
+namespace Solutions.Solutions._2022;
 
 public class Day16
 {
@@ -48,7 +50,8 @@ public class Day16
             var releasedPressure = cur.Pressure;
             var openedValves = cur.OpenedValves.ToHashSet();
             var time = cur.Time;
-            if (HasAlreadySeenBetter(memo, GetState(openedValves, location, time), releasedPressure)) continue;
+            if (HasAlreadySeenBetter(memo, GetState(openedValves, location, 0, location, 0, time),
+                    releasedPressure)) continue;
 
             foreach (var valve in valvesWithPressure.Except(openedValves))
             {
@@ -103,10 +106,24 @@ public class Day16
         return false;
     }
 
-    private static string GetState(HashSet<Valve> openedValves, Valve location, int time)
+    private static string GetState(HashSet<Valve> openedValves, Valve myLocation, int myDistance,
+        Valve elephantLocation, int elephantDistance, int time)
     {
-        return string.Join(",", openedValves.OrderBy(x => x.Name).Select(x => x.Name)) + ":" + location.Name + '@' +
-               time;
+        var sortedValves = openedValves.OrderBy(x => x.Name);
+        var sb = new StringBuilder();
+        foreach (var valve in sortedValves)
+        {
+            sb.Append(valve.Name);
+            sb.Append("-");
+        }
+
+        sb.Append(myDistance);
+        sb.Append(myLocation.Name);
+        sb.Append(elephantDistance);
+        sb.Append(elephantLocation.Name);
+        sb.Append(time);
+
+        return sb.ToString();
     }
 
     private void ParseValveConnections(string[] input, List<Valve> valves)
@@ -130,7 +147,116 @@ public class Day16
 
     public int Part2(string[] input)
     {
-        return 0;
+        var valves = input.Select(ParseValve).ToList();
+        ParseValveConnections(input, valves);
+
+        var pressureValves = valves.Where(x => x.Pressure > 0).ToList();
+        var distances = new Dictionary<(Valve a, Valve b), int>();
+        foreach (var a in valves)
+        foreach (var b in valves)
+        {
+            distances[(a, b)] = int.MaxValue;
+        }
+
+        foreach (var curValve in valves)
+        {
+            var seen = new HashSet<Valve>();
+            var queue = new Queue<(Valve Valve, int Distance)>();
+            queue.Enqueue((curValve, 0));
+            seen.Add(curValve);
+            distances[(curValve, curValve)] = 0;
+            while (queue.Any())
+            {
+                var cur = queue.Dequeue();
+                foreach (var connection in cur.Valve.Connections)
+                {
+                    if (seen.Contains(connection)) continue;
+                    seen.Add(connection);
+                    if (distances[(curValve, connection)] > cur.Distance)
+                        distances[(curValve, connection)] = cur.Distance + 1;
+                    queue.Enqueue((connection, cur.Distance + 1));
+                }
+            }
+        }
+
+        var maxReleasedPressure = 0;
+        var memo = new Dictionary<string, int>();
+        var stack = new Stack<(HashSet<Valve> OpenedValves, Valve MyValve, int MyDistance,
+            Valve ElephantValve, int ElephantDistance, int ReleasedPressure, int ElapsedTime)>();
+        var startValve = valves.Single(x => x.Name == "AA");
+        stack.Push((new HashSet<Valve>(), startValve, 0, startValve, 0, 0, 0));
+
+        while (stack.Any())
+        {
+            var cur = stack.Pop();
+            var openedValves = cur.OpenedValves.ToHashSet();
+            var myValve = cur.MyValve;
+            var myDistance = cur.MyDistance;
+            var elephantValve = cur.ElephantValve;
+            var elephantDistance = cur.ElephantDistance;
+            var releasedPressure = cur.ReleasedPressure;
+            var time = cur.ElapsedTime;
+            if (HasAlreadySeenBetter(memo,
+                    GetState(openedValves, myValve, myDistance, elephantValve, elephantDistance, time),
+                    releasedPressure)) continue;
+            
+            if (maxReleasedPressure < releasedPressure) maxReleasedPressure = releasedPressure;
+            releasedPressure += openedValves.Sum(x => x.Pressure);
+            if (time == 26) continue;
+            time++;
+            
+            if (myDistance == 0 && elephantDistance == 0)
+            {
+                openedValves.Add(myValve);
+                openedValves.Add(elephantValve);
+                foreach (var myNextValve in pressureValves.Except(openedValves))
+                {
+                    foreach (var nextElephantValve in pressureValves.Except(openedValves).Except(new[] {myNextValve}))
+                    {
+                        if (HasAlreadySeenBetter(memo,
+                                GetState(openedValves, myNextValve, distances[(myValve, myNextValve)],
+                                    nextElephantValve, distances[(elephantValve, nextElephantValve)], time),
+                                releasedPressure)) continue;
+                        stack.Push((openedValves.ToHashSet(), myNextValve, distances[(myValve, myNextValve)],
+                            nextElephantValve, distances[(elephantValve, nextElephantValve)], releasedPressure, time));
+                    }
+                }
+            }
+            else if (myDistance == 0 && elephantDistance > 0)
+            {
+                openedValves.Add(myValve);
+                foreach (var myNextValve in pressureValves.Except(openedValves))
+                {
+                    if (HasAlreadySeenBetter(memo,
+                            GetState(openedValves, myNextValve, distances[(myValve, myNextValve)], elephantValve, elephantDistance - 1, time),
+                            releasedPressure)) continue;
+                    stack.Push((openedValves.ToHashSet(), myNextValve, distances[(myValve, myNextValve)], 
+                        elephantValve, elephantDistance - 1, releasedPressure, time));
+                }
+            }
+            else if (myDistance > 0 && elephantDistance == 0)
+            {
+                openedValves.Add(elephantValve);
+                foreach (var nextElephantValve in pressureValves.Except(openedValves).Except(new[] {myValve}))
+                {
+                    if (HasAlreadySeenBetter(memo,
+                            GetState(openedValves, myValve, myDistance - 1, nextElephantValve, distances[(elephantValve, nextElephantValve)], time),
+                            releasedPressure)) continue;
+                    stack.Push((openedValves.ToHashSet(), myValve, myDistance - 1, 
+                        nextElephantValve, distances[(elephantValve, nextElephantValve)], releasedPressure, time));
+                }
+            }
+            else if (myDistance > 0 && elephantDistance > 0)
+            {
+                if (HasAlreadySeenBetter(memo,
+                        GetState(openedValves, myValve, myDistance - 1, elephantValve, elephantDistance - 1, time),
+                        releasedPressure)) continue;
+                stack.Push((openedValves.ToHashSet(), myValve, myDistance - 1,
+                    elephantValve, elephantDistance - 1, releasedPressure, time));
+            }
+        }
+
+        return maxReleasedPressure;
     }
 
     private class Valve
