@@ -41,7 +41,7 @@ public class DayRunner
         _initTime = sw.Elapsed;
     }
 
-    private static IEnumerable<int> AvailableDays => Types.Keys.OrderBy(x => x).Where(x => x == DateTime.Now.Day);
+    private static IEnumerable<int> AvailableDays => Types.Keys.OrderBy(x => x).Where(x => x == DateTime.Now.Day - 1);
 
     public static IEnumerable<int> GetAvailableDays()
     {
