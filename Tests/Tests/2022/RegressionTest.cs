@@ -161,10 +161,10 @@ public class RegressionTest
     public void Day20Part2() => new Day20().Part2(_day20Input).Should().Be(11102539613040);
 
     [Test]
-    public void Day21Part1() => new Day21().Part1(_day21Input).Should().Be(0);
+    public void Day21Part1() => new Day21().Part1(_day21Input).Should().Be(93813115694560);
 
     [Test]
-    public void Day21Part2() => new Day21().Part2(_day21Input).Should().Be(0);
+    public void Day21Part2() => new Day21().Part2(_day21Input).Should().Be(3910938071092);
 
     [Test]
     public void Day22Part1() => new Day22().Part1(_day22Input).Should().Be(0);
