@@ -30,15 +30,16 @@ public class Day22
         {
             if (directions.Contains(path[i]))
             {
-                direction = Turn(direction, path, i);
+                direction = Turn(direction, path[i]);
                 continue;
             }
 
-            var stepCount = GetNumberOfSteps(path, ref i);
+            var stepCount = GetNumberOfSteps(path, i);
+            i += stepCount.ToString().Length - 1;
+            
             for (var j = 0; j < stepCount; j++)
             {
-                var prev = pos;
-                var prevDirection = direction;
+                var prev = (pos, direction);
                 pos = (pos.X + moves[direction].X, pos.Y + moves[direction].Y);
                 if (part == 1)
                 {
@@ -52,20 +53,14 @@ public class Day22
                 else
                 {
                     if (pos.X == -1 || pos.Y == -1 || pos.X == width || pos.Y == height || map[pos.Y][pos.X] == ' ')
+                    {
                         (pos, direction) = NormalizeInCube(pos, direction);
-                    if (map[pos.Y][pos.X] == ' ')
-                        throw new Exception();
-                }
-
-                if (part == 2 && map[pos.Y][pos.X] == ' ')
-                {
-                    throw new Exception();
+                    }
                 }
 
                 if (map[pos.Y][pos.X] == '#')
                 {
-                    pos = prev;
-                    direction = prevDirection;
+                    (pos, direction) = prev;
                     break;
                 }
             }
@@ -74,7 +69,7 @@ public class Day22
         return (pos.Y + 1) * 1000 + (pos.X + 1) * 4 + direction;
     }
 
-    private static int GetNumberOfSteps(string path, ref int i)
+    private static int GetNumberOfSteps(string path, int i)
     {
         var sb = new StringBuilder();
         while (i < path.Length && IsDigit(path[i]))
@@ -82,14 +77,12 @@ public class Day22
             sb.Append(path[i]);
             i++;
         }
-
-        i--;
         return int.Parse(sb.ToString());
     }
 
-    private static int Turn(int direction, string path, int i)
+    private static int Turn(int direction, char turn)
     {
-        direction = path[i] switch
+        direction = turn switch
         {
             'R' => (direction + 1),
             'L' => (direction - 1),
