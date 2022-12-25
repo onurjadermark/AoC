@@ -185,5 +185,5 @@ public class RegressionTest
     public void Day24Part2() => new Day24().Part2(_day24Input).Should().Be(789);
 
     [Test]
-    public void Day25Part1() => new Day25().Part1(_day25Input).Should().Be(0);
+    public void Day25Part1() => new Day25().Part1(_day25Input).Should().Be("2-=102--02--=1-12=22");
 }
