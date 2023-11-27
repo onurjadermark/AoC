@@ -6,7 +6,7 @@ public class Day21
 {
     private class Monkey
     {
-        public string Name { get; set; }
+        public required string Name { get; set; }
         public string? Number { get; set; }
         public string? FirstOperand { get; set; }
         public string? SecondOperand { get; set; }
