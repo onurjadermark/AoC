@@ -71,7 +71,7 @@ public class Day13
                 var curFirst = first[i];
                 if (second.Count() == i) return 1;
                 var curSecond = second[i];
-                var comparison = new Packet(curFirst).CompareTo(new Packet(curSecond));
+                var comparison = new Packet(curFirst!).CompareTo(new Packet(curSecond!));
                 if (comparison == 0) continue;
                 return comparison;
             }
