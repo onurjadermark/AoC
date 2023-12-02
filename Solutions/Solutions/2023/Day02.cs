@@ -18,71 +18,51 @@ public class Day02
 
         foreach (var line in input)
         {
-            var id = int.Parse(line.Split(":")[0][4..]);
-            var tokens = line.Split(":")[1].Split(";");
-            
-            var possible = true;
-            var minRed = 0;
-            var minGreen = 0;
-            var minBlue = 0;
-            
-            foreach (var token in tokens)
+            var id = GetId(line);
+            var counts = GetCounts(line);
+
+            if (part == 1)
             {
-                var cubes = token.Split(",");
-                var red = 0;
-                var green = 0;
-                var blue = 0;
-                
-                foreach (var cube in cubes)
-                {
-                    if (cube.Contains("blue"))
-                    {
-                        blue = int.Parse(cube.Split(" ")[1]);
-                    }
-
-                    if (cube.Contains("green"))
-                    {
-                        green = int.Parse(cube.Split(" ")[1]);
-                    }
-
-                    if (cube.Contains("red"))
-                    {
-                        red = int.Parse(cube.Split(" ")[1]);
-                    }
-                }
-
-                if (red > 12 || green > 13 || blue > 14)
-                {
-                    possible = false;
-                }
-
-                if (minRed < red)
-                {
-                    minRed = red;
-                }
-
-                if (minBlue < blue)
-                {
-                    minBlue = blue;
-                }
-
-                if (minGreen < green)
-                {
-                    minGreen = green;
-                }
+                sum += IsPart1Possible(counts) ? id : 0;
             }
-
-            if (possible && part == 1)
+            else
             {
-                sum += id;
-            }
-
-            if (part == 2)
-            {
-                sum += minRed * minBlue * minGreen;
+                sum += GetPart2Sum(counts);
             }
         }
 
         return sum;
+    }
+
+    private static bool IsPart1Possible((string Color, int Count)[] counts)
+    {
+        return counts.All(c => c.Color switch
+        {
+            "red" => c.Count <= 12,
+            "green" => c.Count <= 13,
+            "blue" => c.Count <= 14,
+            _ => throw new Exception("Invalid color")
+        });
+    }
+
+    private static int GetPart2Sum((string Color, int Count)[] counts)
+    {
+        var redMax = counts.Where(x => x.Color == "red").MaxBy(x => x.Count).Count;
+        var greenMax = counts.Where(x => x.Color == "green").MaxBy(x => x.Count).Count;
+        var blueMax = counts.Where(x => x.Color == "blue").MaxBy(x => x.Count).Count;
+
+        return redMax * greenMax * blueMax;
+    }
+
+    private static int GetId(string line)
+    {
+        return int.Parse(line.Split(':')[0][4..]);
+    }
+
+    private static (string Color, int Count)[] GetCounts(string line)
+    {
+        return line.Split(':')[1].Split(';')
+            .SelectMany(s => s.Split(',').Select(x => x.Trim()))
+            .Select(x => (x.Split(" ")[1], int.Parse(x.Split(" ")[0]))).ToArray();
     }
 }
