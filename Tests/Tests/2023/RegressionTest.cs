@@ -42,10 +42,10 @@ public class RegressionTest
     public void Day01Part2() => new Day01().Part2(_day01Input).Should().Be(55218);
 
     [Test]
-    public void Day02Part1() => new Day02().Part1(_day02Input).Should().Be(0);
+    public void Day02Part1() => new Day02().Part1(_day02Input).Should().Be(1853);
 
     [Test]
-    public void Day02Part2() => new Day02().Part2(_day02Input).Should().Be(0);
+    public void Day02Part2() => new Day02().Part2(_day02Input).Should().Be(72706);
 
     [Test]
     public void Day03Part1() => new Day03().Part1(_day03Input).Should().Be(0);
