@@ -14,7 +14,8 @@ public class Grid<T>
             Dict[(i, j)] = new Node<T>
             {
                 X = i,
-                Y = j
+                Y = j,
+                Id = i * width + j
             };
 
         for (var i = 0; i < width; i++)

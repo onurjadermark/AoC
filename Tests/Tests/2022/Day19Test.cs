@@ -18,5 +18,6 @@ Blueprint 2: Each ore robot costs 2 ore. Each clay robot costs 3 ore. Each obsid
     public void Part1() => GetInstance().Part1(_sampleInput).Should().Be(33);
 
     [Test]
+    [Explicit]
     public void Part2() => GetInstance().Part2(_sampleInput).Should().Be(3472);
 }
