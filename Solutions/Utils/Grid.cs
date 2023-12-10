@@ -44,13 +44,18 @@ public class Grid<T>
     public override string ToString()
     {
         var str = new StringBuilder();
-        for (var i = 0; i < Width; i++)
+        for (var j = 0; j < Height; j++)
         {
-            if (i != 0) str.Append("|");
+            for (var i = 0; i < Width; i++)
+            {
+                str.Append(Dict[(i, j)].Value);
+            }
 
-            for (var j = 0; j < Height; j++) str.Append(Dict[(i, j)].Value);
+            str.Append(Environment.NewLine);
         }
 
         return str.ToString();
     }
+
+    public bool IsOnBoundary(Node<char> node) => node.X == 0 || node.Y == 0 || node.X == Width - 1 || node.Y == Height - 1;
 }
