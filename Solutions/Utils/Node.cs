@@ -21,4 +21,9 @@ public class Node<T>
     {
         return Value?.ToString() ?? " ";
     }
+    
+    public int ManhattanDistance(Node<T> other)
+    {
+        return Math.Abs(X - other.X) + Math.Abs(Y - other.Y);
+    }
 }
