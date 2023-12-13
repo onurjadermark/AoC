@@ -22,4 +22,9 @@ public class StringArrayUtils
 
         return rotated;
     }
+
+    public static List<string[]> SplitByNewline(string[] arr)
+    {
+        return string.Join(Environment.NewLine, arr).Split(Environment.NewLine + Environment.NewLine).Select(x => x.Split(Environment.NewLine)).ToList();
+    }
 }
