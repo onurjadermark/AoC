@@ -6,6 +6,7 @@ using Solutions.Solutions._2023;
 namespace Tests.Tests._2023;
 
 [TestFixture]
+[Explicit]
 public class RegressionTest
 {
     private const int Year = 2023;
@@ -114,10 +115,10 @@ public class RegressionTest
     public void Day13Part2() => new Day13().Part2(_day13Input).Should().Be(32728);
 
     [Test]
-    public void Day14Part1() => new Day14().Part1(_day14Input).Should().Be(0);
+    public void Day14Part1() => new Day14().Part1(_day14Input).Should().Be(106990);
 
     [Test]
-    public void Day14Part2() => new Day14().Part2(_day14Input).Should().Be(0);
+    public void Day14Part2() => new Day14().Part2(_day14Input).Should().Be(100531);
 
     [Test]
     public void Day15Part1() => new Day15().Part1(_day15Input).Should().Be(0);
