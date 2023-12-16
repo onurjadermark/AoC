@@ -1,6 +1,6 @@
 ﻿namespace Solutions.Utils;
 
-public class Node<T>
+public class Node<T>(int x, int y, int id, Grid<T> grid)
 {
     private Node<T>? _down;
     private Node<T>? _downLeft;
@@ -10,9 +10,9 @@ public class Node<T>
     private Node<T>? _up;
     private Node<T>? _upLeft;
     private Node<T>? _upRight;
-    public int Id { get; init; }
-    public int X { get; init; }
-    public int Y { get; init; }
+    public int Id { get; init; } = id;
+    public int X { get; init; } = x;
+    public int Y { get; init; } = y;
     public T Value { get; set; } = default!;
     public IEnumerable<Node<T>> Neighbors { get; set; } = null!;
     public Node<T>? Up => _up ??= Neighbors.SingleOrDefault(x => x.X == X && x.Y == Y - 1);
@@ -24,6 +24,8 @@ public class Node<T>
     public Node<T>? Left => _left ??= Neighbors.SingleOrDefault(x => x.X == X - 1 && x.Y == Y);
     public Node<T>? UpLeft => _upLeft ??= Neighbors.SingleOrDefault(x => x.X == X - 1 && x.Y == Y - 1);
 
+    public Grid<T> Grid = grid;
+
     public override string ToString()
     {
         return Value?.ToString() ?? " ";
@@ -32,5 +34,17 @@ public class Node<T>
     public int ManhattanDistance(Node<T> other)
     {
         return Math.Abs(X - other.X) + Math.Abs(Y - other.Y);
+    }
+
+    public Node<T>? Move((int X, int Y) direction)
+    {
+        return direction switch
+        {
+            (0, 1) => Down,
+            (1, 0) => Right,
+            (0, -1) => Up,
+            (-1, 0) => Left,
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 }

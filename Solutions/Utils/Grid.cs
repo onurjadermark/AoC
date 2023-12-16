@@ -13,12 +13,7 @@ public class Grid<T>
         {
             for (var j = 0; j < height; j++)
             {
-                Dict[(i, j)] = new Node<T>
-                {
-                    X = i,
-                    Y = j,
-                    Id = i * width + j
-                };
+                Dict[(i, j)] = new Node<T>(i, j, i * width + j, this);
             }
         }
 
@@ -60,5 +55,10 @@ public class Grid<T>
         }
 
         return str.ToString();
+    }
+
+    public bool IsOnBoundary(Node<char> node)
+    {
+        return node.X == 0 || node.Y == 0 || node.X == Width - 1 || node.Y == Height - 1;
     }
 }
