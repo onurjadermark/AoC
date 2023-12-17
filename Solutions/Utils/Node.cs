@@ -47,4 +47,9 @@ public class Node<T>(int x, int y, int id, Grid<T> grid)
             _ => throw new ArgumentOutOfRangeException()
         };
     }
+
+    public long ManDistance(Node<int> goal)
+    {
+        return Math.Abs(goal.X - X) + Math.Abs(goal.Y - Y);
+    }
 }
