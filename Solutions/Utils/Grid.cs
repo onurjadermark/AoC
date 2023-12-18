@@ -57,7 +57,7 @@ public class Grid<T>
         return str.ToString();
     }
 
-    public bool IsOnBoundary(Node<char> node)
+    public bool IsOnBoundary(Node<T> node)
     {
         return node.X == 0 || node.Y == 0 || node.X == Width - 1 || node.Y == Height - 1;
     }
