@@ -163,23 +163,23 @@ public class RegressionTest
     public void Day21Part2() => new Day21().Part2(_day21Input).Should().Be(596728703757410);
 
     [Test]
-    public void Day22Part1() => new Day22().Part1(_day22Input).Should().Be(0);
+    public void Day22Part1() => new Day22().Part1(_day22Input).Should().Be(401);
 
     [Test]
-    public void Day22Part2() => new Day22().Part2(_day22Input).Should().Be(0);
+    public void Day22Part2() => new Day22().Part2(_day22Input).Should().Be(63491);
 
     [Test]
-    public void Day23Part1() => new Day23().Part1(_day23Input).Should().Be(0);
+    public void Day23Part1() => new Day23().Part1(_day23Input).Should().Be(2202);
 
     [Test]
-    public void Day23Part2() => new Day23().Part2(_day23Input).Should().Be(0);
+    public void Day23Part2() => new Day23().Part2(_day23Input).Should().Be(6226);
 
     [Test]
-    public void Day24Part1() => new Day24().Part1(_day24Input).Should().Be(0);
+    public void Day24Part1() => new Day24().Part1(_day24Input).Should().Be(17906);
 
     [Test]
-    public void Day24Part2() => new Day24().Part2(_day24Input).Should().Be(0);
+    public void Day24Part2() => new Day24().Part2(_day24Input).Should().Be(571093786416929);
 
     [Test]
-    public void Day25Part1() => new Day25().Part1(_day25Input).Should().Be(0);
+    public void Day25Part1() => new Day25().Part1(_day25Input).Should().Be(612945);
 }
