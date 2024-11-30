@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 using Solutions.Solutions._2020;
@@ -7,7 +9,7 @@ namespace Tests.Tests._2020;
 [TestFixture]
 public class Day22Test
 {
-    private readonly string _sampleInput1 = @"Player 1:
+    private readonly string[] _sampleInput1 = @"Player 1:
 9
 2
 6
@@ -19,7 +21,7 @@ Player 2:
 8
 4
 7
-10";
+10".Split(Environment.NewLine).ToArray();
 
     private Day22 GetInstance() => new();
 

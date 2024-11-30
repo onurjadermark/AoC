@@ -2,17 +2,17 @@
 
 public class Day23
 {
-    public string Part1(string[] input)
+    public long Part1(string[] input)
     {
         return Solve(input, 1);
     }
 
-    public string Part2(string[] input)
+    public long Part2(string[] input)
     {
         return Solve(input, 2);
     }
 
-    private static string Solve(string[] input, int part)
+    private static long Solve(string[] input, int part)
     {
         var linkedList = new LinkedList<int>();
         var nodes = new Dictionary<int, LinkedListNode<int>>();
@@ -60,7 +60,7 @@ public class Day23
             var cups = linkedList.ToList();
             var oneIndex = cups.IndexOf(1);
             var result = linkedList.Skip(oneIndex + 1).Concat(cups.Take(oneIndex));
-            return string.Join("", result);
+            return long.Parse(string.Join("", result));
         }
         else
         {
@@ -68,7 +68,7 @@ public class Day23
             var index = cups.IndexOf(1);
             var result = (long) cups.ElementAt((index + 1) % cups.Count) *
                          cups.ElementAt((index + 2) % cups.Count);
-            return result.ToString();
+            return long.Parse(result.ToString());
         }
     }
 }

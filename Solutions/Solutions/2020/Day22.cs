@@ -2,19 +2,19 @@
 
 public class Day22
 {
-    public long Part1(string input)
+    public long Part1(string[] input)
     {
         return Solve(input, 1);
     }
 
-    public long Part2(string input)
+    public long Part2(string[] input)
     {
         return Solve(input, 2);
     }
 
-    private static long Solve(string input, int part)
+    private static long Solve(string[] input, int part)
     {
-        var split = input.Split("\r\n\r\n").Select(x => x.Trim()).ToList();
+        var split = string.Join(Environment.NewLine, input).Split("\r\n\r\n").Select(x => x.Trim()).ToList();
 
         var cards1 = split.ElementAt(0).Split("\n").Select(x => x.Trim()).Skip(1).Select(int.Parse).ToList();
         var cards2 = split.ElementAt(1).Split("\n").Select(x => x.Trim()).Skip(1).Select(int.Parse).ToList();

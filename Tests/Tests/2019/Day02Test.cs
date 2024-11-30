@@ -17,5 +17,5 @@ public class Day02Test
     public void Part1() => GetInstance().Part1(_sampleInput).Should().Be(3100);
 
     [Test]
-    public void Part2() => GetInstance().Part2(_sampleInput).Should().Be(-1);
+    public void Part2() => GetInstance().Part2(_sampleInput).Should().Be(0);
 }

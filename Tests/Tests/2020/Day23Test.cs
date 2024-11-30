@@ -12,8 +12,8 @@ public class Day23Test
     private Day23 GetInstance() => new();
 
     [Test]
-    public void Part1() => GetInstance().Part1(_sampleInput1.Split('\n')).Should().Be("67384529");
+    public void Part1() => GetInstance().Part1(_sampleInput1.Split('\n')).Should().Be(67384529);
 
     [Test]
-    public void Part2() => GetInstance().Part2(_sampleInput1.Split('\n')).Should().Be("149245887792");
+    public void Part2() => GetInstance().Part2(_sampleInput1.Split('\n')).Should().Be(149245887792);
 }

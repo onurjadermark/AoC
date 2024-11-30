@@ -1,3 +1,4 @@
+using System;
 using FluentAssertions;
 using NUnit.Framework;
 using Solutions.Solutions._2020;
@@ -7,7 +8,7 @@ namespace Tests.Tests._2020;
 [TestFixture]
 public class Day20Test
 {
-    private readonly string _sampleInput1 = @"Tile 2311:
+    private readonly string[] _sampleInput1 = @"Tile 2311:
 ..##.#..#.
 ##..#.....
 #...##..#.
@@ -113,7 +114,7 @@ Tile 3079:
 #.#####.##
 ..#.###...
 ..#.......
-..#.###...";
+..#.###...".Split(Environment.NewLine);
 
     private Day20 GetInstance() => new();
 

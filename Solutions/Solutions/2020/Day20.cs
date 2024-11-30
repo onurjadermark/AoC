@@ -2,19 +2,19 @@
 
 public class Day20
 {
-    public long Part1(string input)
+    public long Part1(string[] input)
     {
         return Solve(input, 1);
     }
 
-    public long Part2(string input)
+    public long Part2(string[] input)
     {
         return Solve(input, 2);
     }
 
-    private static long Solve(string input, int part)
+    private static long Solve(string[] input, int part)
     {
-        var inputTiles = input.Split("\r\n\r\n").Select(x => x.Trim()).ToList();
+        var inputTiles = string.Join(Environment.NewLine, input).Split("\r\n\r\n").Select(x => x.Trim()).ToList();
         var tiles = new List<Tile>();
         foreach (var inputTile in inputTiles) tiles.Add(new Tile(inputTile));
 
