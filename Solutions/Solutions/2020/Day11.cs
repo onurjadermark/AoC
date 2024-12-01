@@ -2,8 +2,8 @@
 
 public class Day11
 {
-    private static readonly List<(int X, int Y)> Neighbors = new()
-    {
+    private readonly List<(int X, int Y)> _neighbors =
+    [
         (0, 1),
         (1, 1),
         (1, 0),
@@ -12,17 +12,17 @@ public class Day11
         (-1, -1),
         (-1, 0),
         (-1, 1)
-    };
+    ];
 
-    private static char[,] _grid = new char[0, 0];
-    private static char[,] _newGrid = new char[0, 0];
-    private static char[,] _emptyGrid = new char[0, 0];
-    private static int _turns;
-    private static int _width;
-    private static int _height;
-    private static int _part;
+    private char[,] _grid = new char[0, 0];
+    private char[,] _newGrid = new char[0, 0];
+    private char[,] _emptyGrid = new char[0, 0];
+    private int _turns;
+    private int _width;
+    private int _height;
+    private int _part;
 
-    private static readonly Dictionary<long, List<(int X, int Y)>> Cache = new();
+    private readonly Dictionary<long, List<(int X, int Y)>> _cache = new();
 
     public long Part1(string[] input)
     {
@@ -34,7 +34,7 @@ public class Day11
         return Solve(input, 2);
     }
 
-    private static long Solve(string[] input, int part)
+    private long Solve(string[] input, int part)
     {
         _part = part;
         var lines = input.Select(x => x.Trim()).ToList();
@@ -96,7 +96,7 @@ public class Day11
         return count;
     }
 
-    private static void SetNextGrid(int i, int j, char c)
+    private void SetNextGrid(int i, int j, char c)
     {
         if (_turns % 2 == 1)
             _grid[i, j] = c;
@@ -104,40 +104,40 @@ public class Day11
             _newGrid[i, j] = c;
     }
 
-    private static char[,] GetCurrentGrid()
+    private char[,] GetCurrentGrid()
     {
         return _turns % 2 == 0 ? _grid : _newGrid;
     }
 
-    private static char[,] GetNextGrid()
+    private char[,] GetNextGrid()
     {
         return _turns % 2 == 1 ? _grid : _newGrid;
     }
 
-    private static int GetNumNeighbors(char[,] grid, int x, int y)
+    private int GetNumNeighbors(char[,] grid, int x, int y)
     {
         var neighbors = GetNeighborsFromCache(x, y);
 
         return neighbors.Count(neighbor => grid[neighbor.X, neighbor.Y] == '#');
     }
 
-    public static List<(int X, int Y)> GetNeighborsFromCache(int x, int y)
+    public List<(int X, int Y)> GetNeighborsFromCache(int x, int y)
     {
         long code = 103;
         code = code * 107 + x;
         code = code * 107 + y;
         code = code * 107 + _part;
 
-        if (!Cache.ContainsKey(code)) Cache[code] = GetNeighbors(x, y, _width, _height, _part);
+        if (!_cache.ContainsKey(code)) _cache[code] = GetNeighbors(x, y, _width, _height, _part);
 
-        return Cache[code];
+        return _cache[code];
     }
 
-    private static List<(int X, int Y)> GetNeighbors(int x, int y, int width, int height, int part)
+    private List<(int X, int Y)> GetNeighbors(int x, int y, int width, int height, int part)
     {
         var neighbors = new List<(int X, int Y)>();
 
-        foreach (var neighbor in Neighbors)
+        foreach (var neighbor in _neighbors)
         {
             var (nx, ny) = neighbor;
             var x2 = x + nx;

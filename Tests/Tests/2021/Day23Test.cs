@@ -65,7 +65,7 @@ public class Day23Test
     [Test]
     public void Part1F() => GetInstance().Part1(_sampleInputF).Should().Be(4600);
 
-    [Explicit]
     [Test]
+    [Explicit]
     public void Part2A() => GetInstance().Part2(_sampleInputA).Should().Be(44169);
 }

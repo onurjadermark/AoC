@@ -96,14 +96,8 @@ public class DayRunner
         Console.WriteLine($"finished after {elapsedPadded}ms, with result: {returnValue}");
     }
 
-    private object GetParameterValue(Type parameterType) =>
-        parameterType.IsArray
-            ? _loader.GetType()
-                .GetMethod(nameof(_loader.ReadLines))
-                ?.MakeGenericMethod(parameterType.GetElementType()!)
-                .Invoke(_loader, Array.Empty<object>())!
-            : _loader.GetType()
-                .GetMethod(nameof(_loader.Read))
-                ?.MakeGenericMethod(parameterType)
-                .Invoke(_loader, Array.Empty<object>())!;
+    private object GetParameterValue(Type parameterType) => _loader.GetType()
+        .GetMethod(nameof(_loader.ReadLines))
+        ?.MakeGenericMethod(parameterType.GetElementType()!)
+        .Invoke(_loader, Array.Empty<object>())!;
 }

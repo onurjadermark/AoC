@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using NUnit.Framework;
 using Solutions.Infrastructure;
 using Solutions.Solutions._2020;
@@ -6,180 +7,179 @@ using Solutions.Solutions._2020;
 namespace Tests.Tests._2020;
 
 [TestFixture]
-[Explicit]
 public class RegressionTest
 {
     private const int Year = 2020;
-    private readonly string[] _day01Input = new InputLoader(Year, 01).ReadLines<string>();
-    private readonly string[] _day02Input = new InputLoader(Year, 02).ReadLines<string>();
-    private readonly string[] _day03Input = new InputLoader(Year, 03).ReadLines<string>();
-    private readonly string[] _day04Input = new InputLoader(Year, 04).ReadLines<string>();
-    private readonly string[] _day05Input = new InputLoader(Year, 05).ReadLines<string>();
-    private readonly string[] _day06Input = new InputLoader(Year, 06).ReadLines<string>();
-    private readonly string[] _day07Input = new InputLoader(Year, 07).ReadLines<string>();
-    private readonly string[] _day08Input = new InputLoader(Year, 08).ReadLines<string>();
-    private readonly string[] _day09Input = new InputLoader(Year, 09).ReadLines<string>();
-    private readonly string[] _day10Input = new InputLoader(Year, 10).ReadLines<string>();
-    private readonly string[] _day11Input = new InputLoader(Year, 11).ReadLines<string>();
-    private readonly string[] _day12Input = new InputLoader(Year, 12).ReadLines<string>();
-    private readonly string[] _day13Input = new InputLoader(Year, 13).ReadLines<string>();
-    private readonly string[] _day14Input = new InputLoader(Year, 14).ReadLines<string>();
-    private readonly string[] _day15Input = new InputLoader(Year, 15).ReadLines<string>();
-    private readonly string[] _day16Input = new InputLoader(Year, 16).ReadLines<string>();
-    private readonly string[] _day17Input = new InputLoader(Year, 17).ReadLines<string>();
-    private readonly string[] _day18Input = new InputLoader(Year, 18).ReadLines<string>();
-    private readonly string[] _day19Input = new InputLoader(Year, 19).ReadLines<string>();
-    private readonly string[] _day20Input = new InputLoader(Year, 20).ReadLines<string>();
-    private readonly string[] _day21Input = new InputLoader(Year, 21).ReadLines<string>();
-    private readonly string[] _day22Input = new InputLoader(Year, 22).ReadLines<string>();
-    private readonly string[] _day23Input = new InputLoader(Year, 23).ReadLines<string>();
-    private readonly string[] _day24Input = new InputLoader(Year, 24).ReadLines<string>();
-    private readonly string[] _day25Input = new InputLoader(Year, 25).ReadLines<string>();
+    private readonly Lazy<string[]> _day01Input = new(() => new InputLoader(Year, 01).ReadLines<string>());
+    private readonly Lazy<string[]> _day02Input = new(() => new InputLoader(Year, 02).ReadLines<string>());
+    private readonly Lazy<string[]> _day03Input = new(() => new InputLoader(Year, 03).ReadLines<string>());
+    private readonly Lazy<string[]> _day04Input = new(() => new InputLoader(Year, 04).ReadLines<string>());
+    private readonly Lazy<string[]> _day05Input = new(() => new InputLoader(Year, 05).ReadLines<string>());
+    private readonly Lazy<string[]> _day06Input = new(() => new InputLoader(Year, 06).ReadLines<string>());
+    private readonly Lazy<string[]> _day07Input = new(() => new InputLoader(Year, 07).ReadLines<string>());
+    private readonly Lazy<string[]> _day08Input = new(() => new InputLoader(Year, 08).ReadLines<string>());
+    private readonly Lazy<string[]> _day09Input = new(() => new InputLoader(Year, 09).ReadLines<string>());
+    private readonly Lazy<string[]> _day10Input = new(() => new InputLoader(Year, 10).ReadLines<string>());
+    private readonly Lazy<string[]> _day11Input = new(() => new InputLoader(Year, 11).ReadLines<string>());
+    private readonly Lazy<string[]> _day12Input = new(() => new InputLoader(Year, 12).ReadLines<string>());
+    private readonly Lazy<string[]> _day13Input = new(() => new InputLoader(Year, 13).ReadLines<string>());
+    private readonly Lazy<string[]> _day14Input = new(() => new InputLoader(Year, 14).ReadLines<string>());
+    private readonly Lazy<string[]> _day15Input = new(() => new InputLoader(Year, 15).ReadLines<string>());
+    private readonly Lazy<string[]> _day16Input = new(() => new InputLoader(Year, 16).ReadLines<string>());
+    private readonly Lazy<string[]> _day17Input = new(() => new InputLoader(Year, 17).ReadLines<string>());
+    private readonly Lazy<string[]> _day18Input = new(() => new InputLoader(Year, 18).ReadLines<string>());
+    private readonly Lazy<string[]> _day19Input = new(() => new InputLoader(Year, 19).ReadLines<string>());
+    private readonly Lazy<string[]> _day20Input = new(() => new InputLoader(Year, 20).ReadLines<string>());
+    private readonly Lazy<string[]> _day21Input = new(() => new InputLoader(Year, 21).ReadLines<string>());
+    private readonly Lazy<string[]> _day22Input = new(() => new InputLoader(Year, 22).ReadLines<string>());
+    private readonly Lazy<string[]> _day23Input = new(() => new InputLoader(Year, 23).ReadLines<string>());
+    private readonly Lazy<string[]> _day24Input = new(() => new InputLoader(Year, 24).ReadLines<string>());
+    private readonly Lazy<string[]> _day25Input = new(() => new InputLoader(Year, 25).ReadLines<string>());
 
     [Test]
-    public void Day01Part1() => new Day01().Part1(_day01Input).Should().Be(787776);
+    public void Day01Part1() => new Day01().Part1(_day01Input.Value).Should().Be(787776);
 
     [Test]
-    public void Day01Part2() => new Day01().Part2(_day01Input).Should().Be(262738554);
+    public void Day01Part2() => new Day01().Part2(_day01Input.Value).Should().Be(262738554);
 
     [Test]
-    public void Day02Part1() => new Day02().Part1(_day02Input).Should().Be(483);
+    public void Day02Part1() => new Day02().Part1(_day02Input.Value).Should().Be(483);
 
     [Test]
-    public void Day02Part2() => new Day02().Part2(_day02Input).Should().Be(482);
+    public void Day02Part2() => new Day02().Part2(_day02Input.Value).Should().Be(482);
 
     [Test]
-    public void Day03Part1() => new Day03().Part1(_day03Input).Should().Be(169);
+    public void Day03Part1() => new Day03().Part1(_day03Input.Value).Should().Be(169);
 
     [Test]
-    public void Day03Part2() => new Day03().Part2(_day03Input).Should().Be(7560370818);
+    public void Day03Part2() => new Day03().Part2(_day03Input.Value).Should().Be(7560370818);
 
     [Test]
-    public void Day04Part1() => new Day04().Part1(_day04Input).Should().Be(213);
+    public void Day04Part1() => new Day04().Part1(_day04Input.Value).Should().Be(213);
 
     [Test]
-    public void Day04Part2() => new Day04().Part2(_day04Input).Should().Be(147);
+    public void Day04Part2() => new Day04().Part2(_day04Input.Value).Should().Be(147);
 
     [Test]
-    public void Day05Part1() => new Day05().Part1(_day05Input).Should().Be(919);
+    public void Day05Part1() => new Day05().Part1(_day05Input.Value).Should().Be(919);
 
     [Test]
-    public void Day05Part2() => new Day05().Part2(_day05Input).Should().Be(642);
+    public void Day05Part2() => new Day05().Part2(_day05Input.Value).Should().Be(642);
 
     [Test]
-    public void Day06Part1() => new Day06().Part1(_day06Input).Should().Be(6775);
+    public void Day06Part1() => new Day06().Part1(_day06Input.Value).Should().Be(6775);
 
     [Test]
-    public void Day06Part2() => new Day06().Part2(_day06Input).Should().Be(3356);
+    public void Day06Part2() => new Day06().Part2(_day06Input.Value).Should().Be(3356);
 
     [Test]
-    public void Day07Part1() => new Day07().Part1(_day07Input).Should().Be(112);
+    public void Day07Part1() => new Day07().Part1(_day07Input.Value).Should().Be(112);
 
     [Test]
-    public void Day07Part2() => new Day07().Part2(_day07Input).Should().Be(6260);
+    public void Day07Part2() => new Day07().Part2(_day07Input.Value).Should().Be(6260);
 
     [Test]
-    public void Day08Part1() => new Day08().Part1(_day08Input).Should().Be(1586);
+    public void Day08Part1() => new Day08().Part1(_day08Input.Value).Should().Be(1586);
 
     [Test]
-    public void Day08Part2() => new Day08().Part2(_day08Input).Should().Be(703);
+    public void Day08Part2() => new Day08().Part2(_day08Input.Value).Should().Be(703);
 
     [Test]
-    public void Day09Part1() => new Day09().Part1(_day09Input).Should().Be(15353384);
+    public void Day09Part1() => new Day09().Part1(_day09Input.Value).Should().Be(15353384);
 
     [Test]
-    public void Day09Part2() => new Day09().Part2(_day09Input).Should().Be(2466556);
+    public void Day09Part2() => new Day09().Part2(_day09Input.Value).Should().Be(2466556);
 
     [Test]
-    public void Day10Part1() => new Day10().Part1(_day10Input).Should().Be(3034);
+    public void Day10Part1() => new Day10().Part1(_day10Input.Value).Should().Be(3034);
 
     [Test]
-    public void Day10Part2() => new Day10().Part2(_day10Input).Should().Be(259172170858496);
+    public void Day10Part2() => new Day10().Part2(_day10Input.Value).Should().Be(259172170858496);
 
     [Test]
-    public void Day11Part1() => new Day11().Part1(_day11Input).Should().Be(2277);
+    public void Day11Part1() => new Day11().Part1(_day11Input.Value).Should().Be(2277);
 
     [Test]
-    public void Day11Part2() => new Day11().Part2(_day11Input).Should().Be(2066);
+    public void Day11Part2() => new Day11().Part2(_day11Input.Value).Should().Be(2066);
 
     [Test]
-    public void Day12Part1() => new Day12().Part1(_day12Input).Should().Be(962);
+    public void Day12Part1() => new Day12().Part1(_day12Input.Value).Should().Be(962);
 
     [Test]
-    public void Day12Part2() => new Day12().Part2(_day12Input).Should().Be(56135);
+    public void Day12Part2() => new Day12().Part2(_day12Input.Value).Should().Be(56135);
 
     [Test]
-    public void Day13Part1() => new Day13().Part1(_day13Input).Should().Be(4135);
+    public void Day13Part1() => new Day13().Part1(_day13Input.Value).Should().Be(4135);
 
     [Test]
-    public void Day13Part2() => new Day13().Part2(_day13Input).Should().Be(640856202464541);
+    public void Day13Part2() => new Day13().Part2(_day13Input.Value).Should().Be(640856202464541);
 
     [Test]
-    public void Day14Part1() => new Day14().Part1(_day14Input).Should().Be(14839536808842);
+    public void Day14Part1() => new Day14().Part1(_day14Input.Value).Should().Be(14839536808842);
 
     [Test]
-    public void Day14Part2() => new Day14().Part2(_day14Input).Should().Be(4215284199669);
+    public void Day14Part2() => new Day14().Part2(_day14Input.Value).Should().Be(4215284199669);
 
     [Test]
-    public void Day15Part1() => new Day15().Part1(_day15Input).Should().Be(1194);
+    public void Day15Part1() => new Day15().Part1(_day15Input.Value).Should().Be(1194);
 
     [Test]
-    public void Day15Part2() => new Day15().Part2(_day15Input).Should().Be(48710);
+    public void Day15Part2() => new Day15().Part2(_day15Input.Value).Should().Be(48710);
 
     [Test]
-    public void Day16Part1() => new Day16().Part1(_day16Input).Should().Be(25895);
+    public void Day16Part1() => new Day16().Part1(_day16Input.Value).Should().Be(25895);
 
     [Test]
-    public void Day16Part2() => new Day16().Part2(_day16Input).Should().Be(5865723727753);
+    public void Day16Part2() => new Day16().Part2(_day16Input.Value).Should().Be(5865723727753);
 
     [Test]
-    public void Day17Part1() => new Day17().Part1(_day17Input).Should().Be(237);
+    public void Day17Part1() => new Day17().Part1(_day17Input.Value).Should().Be(237);
 
     [Test]
-    public void Day17Part2() => new Day17().Part2(_day17Input).Should().Be(2448);
+    public void Day17Part2() => new Day17().Part2(_day17Input.Value).Should().Be(2448);
 
     [Test]
-    public void Day18Part1() => new Day18().Part1(_day18Input).Should().Be(21347713555555);
+    public void Day18Part1() => new Day18().Part1(_day18Input.Value).Should().Be(21347713555555);
 
     [Test]
-    public void Day18Part2() => new Day18().Part2(_day18Input).Should().Be(275011754427339);
+    public void Day18Part2() => new Day18().Part2(_day18Input.Value).Should().Be(275011754427339);
 
     [Test]
-    public void Day19Part1() => new Day19().Part1(_day19Input).Should().Be(178);
+    public void Day19Part1() => new Day19().Part1(_day19Input.Value).Should().Be(178);
 
     [Test]
-    public void Day19Part2() => new Day19().Part2(_day19Input).Should().Be(346);
+    public void Day19Part2() => new Day19().Part2(_day19Input.Value).Should().Be(346);
 
     [Test]
-    public void Day20Part1() => new Day20().Part1(_day20Input).Should().Be(8272903687921);
+    public void Day20Part1() => new Day20().Part1(_day20Input.Value).Should().Be(8272903687921);
 
     [Test]
-    public void Day20Part2() => new Day20().Part2(_day20Input).Should().Be(2304);
+    public void Day20Part2() => new Day20().Part2(_day20Input.Value).Should().Be(2304);
 
     [Test]
-    public void Day21Part1() => new Day21().Part1(_day21Input).Should().Be("2569");
+    public void Day21Part1() => new Day21().Part1(_day21Input.Value).Should().Be("2569");
 
     [Test]
-    public void Day21Part2() => new Day21().Part2(_day21Input).Should().Be("vmhqr,qxfzc,khpdjv,gnrpml,xrmxxvn,rfmvh,rdfr,jxh");
+    public void Day21Part2() => new Day21().Part2(_day21Input.Value).Should().Be("vmhqr,qxfzc,khpdjv,gnrpml,xrmxxvn,rfmvh,rdfr,jxh");
 
     [Test]
-    public void Day22Part1() => new Day22().Part1(_day22Input).Should().Be(35299);
+    public void Day22Part1() => new Day22().Part1(_day22Input.Value).Should().Be(35299);
 
     [Test]
-    public void Day22Part2() => new Day22().Part2(_day22Input).Should().Be(33266);
+    public void Day22Part2() => new Day22().Part2(_day22Input.Value).Should().Be(33266);
 
     [Test]
-    public void Day23Part1() => new Day23().Part1(_day23Input).Should().Be(82635947);
+    public void Day23Part1() => new Day23().Part1(_day23Input.Value).Should().Be(82635947);
 
     [Test]
-    public void Day23Part2() => new Day23().Part2(_day23Input).Should().Be(157047826689);
+    public void Day23Part2() => new Day23().Part2(_day23Input.Value).Should().Be(157047826689);
 
     [Test]
-    public void Day24Part1() => new Day24().Part1(_day24Input).Should().Be(455);
+    public void Day24Part1() => new Day24().Part1(_day24Input.Value).Should().Be(455);
 
     [Test]
-    public void Day24Part2() => new Day24().Part2(_day24Input).Should().Be(3904);
+    public void Day24Part2() => new Day24().Part2(_day24Input.Value).Should().Be(3904);
 
     [Test]
-    public void Day25Part1() => new Day25().Part1(_day25Input).Should().Be(12929);
+    public void Day25Part1() => new Day25().Part1(_day25Input.Value).Should().Be(12929);
 }
