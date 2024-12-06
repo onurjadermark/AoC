@@ -22,45 +22,50 @@ public class Day06
         originalPosition.Value = '.';
         var loopCount = 0;
         
-        for (var j = 0; j < input.Length; j++)
+        var (originalVisited, _) = Solve(originalPosition, originalDirection, null);
+        if (part == 1) return originalVisited.Select(x => x.Position).Distinct().Count();
+        
+        foreach (var obstruction in grid.Nodes)
         {
-            for (var i = 0; i < input[j].Length; i++)
-            {
-                var visited = new HashSet<(Node<char> Position, (int X, int Y) Direction)>();
-                var currentPosition = originalPosition;
-                var currentDirection = originalDirection;
-                var obstruction = part == 1 ? null : grid[i, j];
-                if (obstruction?.Value == '#' || obstruction == originalPosition) continue;
+            var currentPosition = originalPosition;
+            var currentDirection = originalDirection;
+            
+            if (obstruction.Value == '#' || obstruction == originalPosition) continue;
+            if (originalVisited.All(x => x.Position != obstruction)) continue;
 
-                while (true)
-                {
-                    visited.Add((currentPosition, currentDirection));
-                    
-                    var nextPosition = currentPosition.GetNeighbor(currentDirection);
-                    if (nextPosition == null) break;
-                    
-                    if (nextPosition.Value == '#' || nextPosition == obstruction)
-                    {
-                        currentDirection = DirectionUtils.TurnRight(currentDirection);
-                    }
-                    else
-                    {
-                        currentPosition = nextPosition;
-                    }
-
-                    if (!visited.Contains((currentPosition, currentDirection))) continue;
-                    loopCount++;
-                    break;
-                }
-
-                if (part == 1)
-                {
-                    return visited.Select(x => x.Position).Distinct().Count();
-                }
-            }
+            var (_, isLoop) = Solve(currentPosition, currentDirection, obstruction);
+            if (isLoop) loopCount++;
         }
 
-
         return loopCount;
+    }
+
+    private static (HashSet<(Node<char> Position, (int X, int Y) Direction)> Visited, bool IsLoop) Solve(Node<char> currentPosition, (int X, int Y) currentDirection, Node<char>? obstruction)
+    {
+        var visited = new HashSet<(Node<char> Position, (int X, int Y) Direction)>();
+        var isLoop = false;
+        
+        while (true)
+        {
+            visited.Add((currentPosition, currentDirection));
+                    
+            var nextPosition = currentPosition.GetNeighbor(currentDirection);
+            if (nextPosition == null) break;
+                    
+            if (nextPosition.Value == '#' || nextPosition == obstruction)
+            {
+                currentDirection = DirectionUtils.TurnRight(currentDirection);
+            }
+            else
+            {
+                currentPosition = nextPosition;
+            }
+
+            if (!visited.Contains((currentPosition, currentDirection))) continue;
+            isLoop = true;
+            break;
+        }
+
+        return (visited, isLoop);
     }
 }

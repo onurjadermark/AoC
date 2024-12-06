@@ -44,8 +44,8 @@ public class AocHttpClient : IDisposable
             return new ClientResponse { ResponseType = ClientResponseType.Failure, Content = "Session cookie not found." };
         }
 
-        HttpResponseMessage response = await _httpClient.GetAsync($"day/{_day}/input");
-        string content = await response.Content.ReadAsStringAsync();
+        var response = await _httpClient.GetAsync($"day/{_day}/input");
+        var content = await response.Content.ReadAsStringAsync();
 
         return new ClientResponse
         {

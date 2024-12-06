@@ -50,15 +50,18 @@
             using var aocClient = new AocHttpClient(_year, _day);
             var response = aocClient.GetPuzzleInput().Result;
 
-            if (response.ResponseType == ClientResponseType.Success)
+            switch (response.ResponseType)
             {
-                _cachedInput = response.Content;
-                Directory.CreateDirectory(Path.GetDirectoryName(path)!);
-                File.WriteAllText(path, response.Content);
-            }
-            else
-            {
-                _cachedInput = string.Empty;
+                case ClientResponseType.Success:
+                    _cachedInput = response.Content;
+                    Directory.CreateDirectory(Path.GetDirectoryName(path)!);
+                    File.WriteAllText(path, response.Content);
+                    break;
+                case ClientResponseType.NotYetAvailable:
+                    _cachedInput = string.Empty;
+                    break;
+                default:
+                    throw new Exception(response.Content);
             }
         }
 
