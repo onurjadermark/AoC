@@ -25,9 +25,9 @@ public class Day17
 
     private static IEnumerable<Node<int>> AStar(Node<int> start, Node<int> goal, int part)
     {
-        var open = new PriorityQueue<(Node<int>, Direction?, int), long>();
-        var history = new Dictionary<(Node<int>, Direction?, int), (Node<int>, Direction?, int)>();
-        var gScores = new Dictionary<(Node<int>, Direction?, int), long> {[(start, null, 0)] = 0};
+        var open = new PriorityQueue<(Node<int>, (int X, int Y)?, int), long>();
+        var history = new Dictionary<(Node<int>, (int X, int Y)?, int), (Node<int>, (int X, int Y)?, int)>();
+        var gScores = new Dictionary<(Node<int>, (int X, int Y)?, int), long> {[(start, null, 0)] = 0};
         open.Enqueue((start, null, 0), 0);
 
         while (open.Count > 0)
@@ -50,10 +50,10 @@ public class Day17
             foreach (var n in cur.Neighbors)
             {
                 var nextGScore = gScores[(cur, direction, count)] + n.Value;
-                var nextDirection = Utilities.GetDirection(n.X - cur.X, n.Y - cur.Y);
+                var nextDirection = (n.X - cur.X, n.Y - cur.Y);
                 var nextCount = direction == nextDirection ? count + 1 : 0;
 
-                if (direction != null && direction.Value.Flip() == nextDirection)
+                if (direction != null && DirectionUtils.TurnAround(direction.Value) == nextDirection)
                 {
                     nextGScore = long.MaxValue;
                 }

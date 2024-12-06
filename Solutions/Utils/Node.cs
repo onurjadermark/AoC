@@ -24,8 +24,6 @@ public class Node<T>(int x, int y, int id, Grid<T> grid)
     public Node<T>? Left => _left ??= Neighbors.SingleOrDefault(x => x.X == X - 1 && x.Y == Y);
     public Node<T>? UpLeft => _upLeft ??= Neighbors.SingleOrDefault(x => x.X == X - 1 && x.Y == Y - 1);
 
-    public Grid<T> Grid = grid;
-
     public override string ToString()
     {
         return Value?.ToString() ?? " ";
@@ -51,5 +49,10 @@ public class Node<T>(int x, int y, int id, Grid<T> grid)
     public long ManDistance(Node<int> goal)
     {
         return Math.Abs(goal.X - X) + Math.Abs(goal.Y - Y);
+    }
+    
+    public Node<T>? GetNeighbor((int x, int y) direction)
+    {
+        return grid.GetNeighbor(this, direction);
     }
 }
