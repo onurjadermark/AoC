@@ -17,7 +17,7 @@ public class Day06
     private int Solve(string[] input, int part)
     {
         var grid = GridFactory.FromInputStrings(input);
-        var originalPosition = grid.Nodes.Single(x => new [] { '^', '>', 'v', '<' }.Contains(x.Value));
+        var originalPosition = grid.Nodes.Single(x => DirectionUtils.DirectionChars.Contains(x.Value));
         var originalDirection = DirectionUtils.FromChar(originalPosition.Value);
         originalPosition.Value = '.';
         var loopCount = 0;
@@ -27,15 +27,12 @@ public class Day06
         
         foreach (var obstruction in grid.Nodes)
         {
-            var currentPosition = originalPosition;
-            var currentDirection = originalDirection;
-            
             if (obstruction.Value == '#' || obstruction == originalPosition) continue;
             if (originalVisited.All(x => x.Position != obstruction)) continue;
 
-            var (_, isLoop) = Solve(currentPosition, currentDirection, obstruction);
+            var (_, isLoop) = Solve(originalPosition, originalDirection, obstruction);
             if (isLoop) loopCount++;
-        }
+        } 
 
         return loopCount;
     }

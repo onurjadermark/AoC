@@ -43,4 +43,6 @@ public abstract class DirectionUtils
             _ => throw new ArgumentException()
         };
     }
+    
+    public static readonly char[] DirectionChars = ['^', '>', 'v', '<'];
 }
