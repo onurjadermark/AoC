@@ -58,13 +58,14 @@ public class Day09
             {
                 var location = locations[i];
                 var size = sizes[i];
-                
-                for (var j = 0; j < location; j++)
+                var target = -1;
+
+                foreach (var emptyIndex in emptyIndices)
                 {
-                    if (disk[j] != ".") continue;
+                    if (emptyIndex >= location) break;
 
                     var emptySize = 0;
-                    for (var k = j; k < disk.Length; k++)
+                    for (var k = emptyIndex; k < disk.Length; k++)
                     {
                         if (disk[k] == ".")
                         {
@@ -78,17 +79,17 @@ public class Day09
 
                     if (emptySize < size) continue;
                     
-                    for (var k = 0; k < size; k++)
-                    {
-                        disk[j + k] = i.ToString();
-                    }
-                    
-                    for (var k = 0; k < size; k++)
-                    {
-                        disk[location + k] = ".";
-                    }
-                    
+                    target = emptyIndex;
                     break;
+                }
+                
+                if (target == -1) continue;
+                
+                for (var k = 0; k < size; k++)
+                {
+                    disk[target + k] = i.ToString();
+                    emptyIndices.Remove(target + k);
+                    disk[location + k] = ".";
                 }
             }
         }
