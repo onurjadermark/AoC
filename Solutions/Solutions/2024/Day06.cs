@@ -20,35 +20,28 @@ public class Day06
         var originalPosition = grid.Nodes.Single(x => DirectionUtils.DirectionChars.Contains(x.Value));
         var originalDirection = DirectionUtils.FromChar(originalPosition.Value);
         originalPosition.Value = '.';
-        var loopCount = 0;
-        
-        var (originalVisited, _) = Solve(originalPosition, originalDirection, null);
+
+        var originalVisited = Solve(originalPosition, originalDirection, null).Visited;
         if (part == 1) return originalVisited.Select(x => x.Position).Distinct().Count();
-        
-        foreach (var obstruction in grid.Nodes)
-        {
-            if (obstruction.Value == '#' || obstruction == originalPosition) continue;
-            if (originalVisited.All(x => x.Position != obstruction)) continue;
+        var toCheck = originalVisited.Select(x => x.Position).Distinct()
+            .Where(x => x.Value != '#' && x != originalPosition).ToHashSet();
 
-            var (_, isLoop) = Solve(originalPosition, originalDirection, obstruction);
-            if (isLoop) loopCount++;
-        } 
-
-        return loopCount;
+        return toCheck.Count(x => Solve(originalPosition, originalDirection, x).IsLoop);
     }
 
-    private static (HashSet<(Node<char> Position, (int X, int Y) Direction)> Visited, bool IsLoop) Solve(Node<char> currentPosition, (int X, int Y) currentDirection, Node<char>? obstruction)
+    private static Solution Solve(Node<char> currentPosition, (int X, int Y) currentDirection, Node<char>? obstruction)
     {
         var visited = new HashSet<(Node<char> Position, (int X, int Y) Direction)>();
         var isLoop = false;
-        
+
         while (true)
         {
+            var lastVisitedCount = visited.Count;
             visited.Add((currentPosition, currentDirection));
-                    
+
             var nextPosition = currentPosition.GetNeighbor(currentDirection);
             if (nextPosition == null) break;
-                    
+
             if (nextPosition.Value == '#' || nextPosition == obstruction)
             {
                 currentDirection = DirectionUtils.TurnRight(currentDirection);
@@ -58,11 +51,17 @@ public class Day06
                 currentPosition = nextPosition;
             }
 
-            if (!visited.Contains((currentPosition, currentDirection))) continue;
+            if (visited.Count != lastVisitedCount) continue;
             isLoop = true;
             break;
         }
 
-        return (visited, isLoop);
+        return new Solution(visited, isLoop);
+    }
+
+    private class Solution(HashSet<(Node<char> Position, (int X, int Y) Direction)> visited, bool isLoop)
+    {
+        public HashSet<(Node<char> Position, (int X, int Y) Direction)> Visited { get; } = visited;
+        public bool IsLoop { get; } = isLoop;
     }
 }

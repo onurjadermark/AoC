@@ -20,14 +20,16 @@ public class Day12
         var sum = 0;
         var visited = new HashSet<Node<char>>();
         var directions = DirectionUtils.GetOrthogonalDirections();
-        
+
         foreach (var node in grid.Nodes)
         {
             var size = 0;
             if (visited.Contains(node)) continue;
+            
+            var edgeParts = new HashSet<(Node<char> Node, (int X, int Y) Direction)>();
             var queue = new Queue<Node<char>>();
             queue.Enqueue(node);
-            var perimeterNodes = new HashSet<(Node<char> Node, (int X, int Y) Direction)>();
+            
             while (queue.Any())
             {
                 var current = queue.Dequeue();
@@ -39,38 +41,42 @@ public class Day12
                     var neighbor = current.GetNeighbor(direction);
                     if (neighbor == null || neighbor.Value != current.Value)
                     {
-                        perimeterNodes.Add((current, direction));
+                        edgeParts.Add((current, direction));
                     }
                 }
-                
-                foreach (var neighbor in current.GetOrthogonalNeighbors().Where(x => x.X == current.X || x.Y == current.Y).Where(x => x.Value == current.Value))
-                {
-                    queue.Enqueue(neighbor);
-                }
+
+                current.GetOrthogonalNeighbors()
+                    .Where(x => x.Value == current.Value)
+                    .ForEach(x => queue.Enqueue(x));
             }
 
             var edgeCount = 0;
-            var visitedPerimeterNodes = new HashSet<(Node<char> Node, (int X, int Y) Direction)>();
-            foreach (var perimeterNode in perimeterNodes)
+            var visitedEdgeParts = new HashSet<(Node<char> Node, (int X, int Y) Direction)>();
+            
+            foreach (var edgePart in edgeParts)
             {
-                if (visitedPerimeterNodes.Contains(perimeterNode)) continue;
+                if (!visitedEdgeParts.Add(edgePart)) continue;
                 edgeCount++;
-                visitedPerimeterNodes.Add(perimeterNode);
-                foreach (var directionToCheck in new [] {DirectionUtils.TurnLeft(perimeterNode.Direction), DirectionUtils.TurnRight(perimeterNode.Direction)})
+
+                foreach (var directionToCheck in new[] {DirectionUtils.TurnLeft(edgePart.Direction), DirectionUtils.TurnRight(edgePart.Direction)})
                 {
-                    var next = perimeterNode;
+                    var cur = edgePart;
                     while (true)
                     {
-                        next = perimeterNodes.FirstOrDefault(x => x.Node == next.Node.Move(directionToCheck) && x.Direction == perimeterNode.Direction);
-                        if (next == default) break;
-                        visitedPerimeterNodes.Add(next);
+                        var nextEdge = cur.Node.GetNeighbor(directionToCheck);
+                        if (nextEdge == null) break;
+                        cur = (nextEdge, cur.Direction);
+                        if (!edgeParts.Contains(cur)) break;
+                        
+                        cur = edgeParts.FirstOrDefault(x => x.Node == nextEdge && x.Direction == edgePart.Direction);
+                        visitedEdgeParts.Add(cur);
                     }
                 }
             }
-            
-            sum += size * (part == 1 ? perimeterNodes.Count : edgeCount);
+
+            sum += size * (part == 1 ? edgeParts.Count : edgeCount);
         }
-        
+
         return sum;
     }
 }

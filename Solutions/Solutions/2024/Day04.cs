@@ -15,13 +15,13 @@ public class Day04
 
             foreach (var direction in DirectionUtils.GetAllDirections())
             {
-                var neighbor = grid.GetNeighbor(node, direction);
+                var neighbor = node.GetNeighbor(direction);
                 if (neighbor?.Value != 'M') continue;
                         
-                var nextNeighbor = grid.GetNeighbor(neighbor, direction);
+                var nextNeighbor = neighbor.GetNeighbor(direction);
                 if (nextNeighbor?.Value != 'A') continue;
 
-                var nextNextNeighbor = grid.GetNeighbor(nextNeighbor, direction);
+                var nextNextNeighbor = nextNeighbor.GetNeighbor(direction);
                 if (nextNextNeighbor?.Value != 'S') continue;
 
                 count++;
@@ -42,10 +42,10 @@ public class Day04
             if (node.Value != 'A') continue;
             foreach (var direction in DirectionUtils.GetDiagonalDirections())
             {
-                var neighbor = grid.GetNeighbor(node, direction);
+                var neighbor = node.GetNeighbor(direction);
                 if (neighbor?.Value != 'M') continue;
 
-                var oppositeNeighbor = grid.GetNeighbor(node, (-direction.X, -direction.Y));
+                var oppositeNeighbor = node.GetNeighbor((-direction.X, -direction.Y));
                 if (oppositeNeighbor?.Value != 'S') continue;
                         
                 masCount++;

@@ -36,18 +36,6 @@ public class Node<T>(int x, int y, int id, Grid<T> grid)
         return Math.Abs(X - other.X) + Math.Abs(Y - other.Y);
     }
 
-    public Node<T>? Move((int X, int Y) direction)
-    {
-        return direction switch
-        {
-            (0, 1) => Down,
-            (1, 0) => Right,
-            (0, -1) => Up,
-            (-1, 0) => Left,
-            _ => throw new ArgumentOutOfRangeException()
-        };
-    }
-
     public long ManDistance(Node<int> goal)
     {
         return Math.Abs(goal.X - X) + Math.Abs(goal.Y - Y);
@@ -55,7 +43,18 @@ public class Node<T>(int x, int y, int id, Grid<T> grid)
 
     public Node<T>? GetNeighbor((int x, int y) direction)
     {
-        return grid.GetNeighbor(this, direction);
+        return direction switch
+        {
+            (0, 1) => Down,
+            (1, 0) => Right,
+            (0, -1) => Up,
+            (-1, 0) => Left,
+            (1, 1) => DownRight,
+            (-1, 1) => DownLeft,
+            (1, -1) => UpRight,
+            (-1, -1) => UpLeft,
+            _ => throw new ArgumentOutOfRangeException()
+        };
     }
 
     public IEnumerable<Node<T>> GetOrthogonalNeighbors() => _orthogonalNeighbors ??= Neighbors.Where(x => x.X == X || x.Y == Y).ToList();

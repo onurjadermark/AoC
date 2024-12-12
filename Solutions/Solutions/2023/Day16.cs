@@ -87,7 +87,7 @@ public class Day16
         HashSet<(Node<char> Node, (int X, int Y) Direction)> seen,
         Queue<(Node<char> Node, (int X, int Y) Direction)> queue)
     {
-        var next = (Node: node.Move(direction), Direction: direction);
+        var next = (Node: node.GetNeighbor(direction), Direction: direction);
         if (next.Node != null && !seen.Contains(next!))
         {
             queue.Enqueue(next!);

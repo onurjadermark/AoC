@@ -66,9 +66,4 @@ public class Grid<T>
     {
         return x < 0 || x >= Width || y < 0 || y >= Height ? null : Dict[(x, y)];
     }
-
-    public Node<T>? GetNeighbor(Node<T> node, (int x, int y) direction)
-    {
-        return GetNode(node.X + direction.x, node.Y + direction.y);
-    }
 }
