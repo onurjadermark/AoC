@@ -6,6 +6,8 @@ public class Node<T>(int x, int y, int id, Grid<T> grid)
     private Node<T>? _downLeft;
     private Node<T>? _downRight;
     private Node<T>? _left;
+
+    private List<Node<T>>? _orthogonalNeighbors;
     private Node<T>? _right;
     private Node<T>? _up;
     private Node<T>? _upLeft;
@@ -50,9 +52,11 @@ public class Node<T>(int x, int y, int id, Grid<T> grid)
     {
         return Math.Abs(goal.X - X) + Math.Abs(goal.Y - Y);
     }
-    
+
     public Node<T>? GetNeighbor((int x, int y) direction)
     {
         return grid.GetNeighbor(this, direction);
     }
+
+    public IEnumerable<Node<T>> GetOrthogonalNeighbors() => _orthogonalNeighbors ??= Neighbors.Where(x => x.X == X || x.Y == Y).ToList();
 }

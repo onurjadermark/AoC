@@ -2,9 +2,9 @@
 
 public abstract class GridFactory
 {
-    public static Grid<char> FromInputStrings(string[] input)
+    public static Grid<char> FromInputStrings(string[] input, bool allowDiagonals = false)
     {
-        var grid = new Grid<char>(input[0].Length, input.Length, false);
+        var grid = new Grid<char>(input[0].Length, input.Length, allowDiagonals);
         grid.Nodes.ForEach(x => x.Value = input[x.Y][x.X]);
         return grid;
     }
