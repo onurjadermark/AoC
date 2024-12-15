@@ -1,4 +1,6 @@
-﻿namespace Solutions.Utils;
+﻿using MoreLinq;
+
+namespace Solutions.Utils;
 
 public abstract class GridFactory
 {

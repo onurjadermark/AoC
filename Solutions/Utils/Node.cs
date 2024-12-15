@@ -15,6 +15,7 @@ public class Node<T>(int x, int y, int id, Grid<T> grid)
     public int Id { get; init; } = id;
     public int X { get; init; } = x;
     public int Y { get; init; } = y;
+    public (int X, int Y) Position => (X, Y);
     public T Value { get; set; } = default!;
     public IEnumerable<Node<T>> Neighbors { get; set; } = null!;
     public Node<T>? Up => _up ??= Neighbors.SingleOrDefault(x => x.X == X && x.Y == Y - 1);

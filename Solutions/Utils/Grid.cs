@@ -40,6 +40,7 @@ public class Grid<T>
     public IEnumerable<Node<T>> Nodes => Dict.Values.AsEnumerable();
     private Dictionary<(int X, int Y), Node<T>> Dict { get; } = new();
     public Node<T> this[int x, int y] => Dict[(x, y)];
+    public Node<T> this[(int X, int Y) position] => Dict[(position.X, position.Y)];
 
     public override string ToString()
     {

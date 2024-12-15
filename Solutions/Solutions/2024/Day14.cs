@@ -50,7 +50,6 @@ public class Day14
 
             robots = robots.OrderBy(r => r.Y).ThenBy(r => r.X).ToList();
             if (!CheckTree(robots)) continue;
-            DumpImage(robots);
             return i + 1;
         }
 
@@ -78,34 +77,6 @@ public class Day14
             return new Robot {X = x, Y = y, Vx = vx, Vy = vy};
         }).ToList();
         return robots;
-    }
-
-    private static void DumpImage(List<Robot> robots)
-    {
-        Console.WriteLine();
-        
-        var y = 0;
-        var x = 0;
-        foreach (var robot in robots)
-        {
-            if (robot.Y != y)
-            {
-                Console.WriteLine();
-                y = robot.Y;
-                x = 0;
-            }
-
-            while (robot.X != x)
-            {
-                Console.Write(' ');
-                x++;
-            }
-
-            Console.Write('#');
-            x++;
-        }
-
-        Console.WriteLine();
     }
 
     private class Robot

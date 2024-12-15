@@ -46,3 +46,11 @@ public abstract class DirectionUtils
     
     public static readonly char[] DirectionChars = ['^', '>', 'v', '<'];
 }
+
+public static class TupleExtensions
+{
+    public static (int X, int Y) Add(this (int X, int Y) tuple1, (int X, int Y) tuple2)
+    {
+        return (tuple1.X + tuple2.X, tuple1.Y + tuple2.Y);
+    }
+}
