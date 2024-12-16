@@ -29,7 +29,7 @@ public class Node<T>(int x, int y, int id, Grid<T> grid)
 
     public override string ToString()
     {
-        return Value?.ToString() ?? " ";
+        return $"{Value}({X},{Y})";
     }
 
     public int ManhattanDistance(Node<T> other)
