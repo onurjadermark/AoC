@@ -139,10 +139,10 @@ public class RegressionTest
     public void Day17Part2() => new Day17().Part2(_day17Input.Value).Should().Be("37221334433268");
 
     [Test]
-    public void Day18Part1() => new Day18().Part1(_day18Input.Value).Should().Be(0);
+    public void Day18Part1() => new Day18().Part1(_day18Input.Value).Should().Be("360");
 
     [Test]
-    public void Day18Part2() => new Day18().Part2(_day18Input.Value).Should().Be(0);
+    public void Day18Part2() => new Day18().Part2(_day18Input.Value).Should().Be("58,62");
 
     [Test]
     public void Day19Part1() => new Day19().Part1(_day19Input.Value).Should().Be(0);
